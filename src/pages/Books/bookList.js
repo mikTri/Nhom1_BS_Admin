@@ -9,6 +9,7 @@ import Select from '@mui/material/Select';
 import Pagination from '@mui/material/Pagination';
 import Rating from '@mui/material/Rating';
 import HomeIcon from '@mui/icons-material/Home';
+import TextField from '@mui/material/TextField';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import 'react-lazy-load-image-component/src/effects/blur.css';
 import DashboardBox from '../../Components/Dashboard';
@@ -18,14 +19,19 @@ import UploadCSV from './uploadCSV';
 import { MyContext } from "../../App";
 
 const BookList = () => {
-    
+    const context = useContext(MyContext);
     const [categoryVal, setCategoryVal] = useState('all');
+    const [categoryName, setCategoryName] = useState('all');
     const [page, setPage] = useState(1);
     const [totalBooks, setTotalBooks] = useState(0);
     const [totalCategory, setTotalCategory] = useState(0);
     const [bookList, setBookList] = useState({ books: [], totalBooks: 0, booksPerPage: 10 });
     const [isLoading, setIsLoading] = useState(false);
-    const context = useContext(MyContext);
+    const [searchQuery, setSearchQuery] = useState("");
+    const [filteredBooks, setFilteredBooks] = useState([]);
+    const { fetchBookList, boookData } = useContext(MyContext);
+
+    
 
 
     const breadcrumbs = [
@@ -46,6 +52,54 @@ const BookList = () => {
         fetchDataFromApi("/api/categories/get/count").then((res) => setTotalCategory(res.categoryCount));
     }, []);
 
+
+    useEffect(() => {
+        const loadBooks = async () => {
+            try {
+                setIsLoading(true);
+                context.setProgress(40);
+                await fetchBookList();
+                context.setProgress(100);
+                setFilteredBooks(context.bookData);
+
+            } catch (error) {
+                console.error("Failed to fetch book list", error);
+                context.setAlertBox({ open: true, error: true, msg: 'Failed to load book data!' });
+                context.setProgress(0);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+    
+        loadBooks();
+    }, []);
+
+    useEffect(() => {
+        setFilteredBooks(context.bookData); // Update filteredAuthors khi author thay đổi
+    }, [context.bookData]);
+
+
+    // apply filter logic
+    useEffect(() => {
+        const filterBooks = () => {
+            let filtered = context.bookData || [];
+            if (categoryVal !== 'all') {
+                filtered = filtered.filter(book => book.genres.includes(categoryName));
+                console.log("categoryVal: " + categoryVal);
+            }
+
+            if (searchQuery) {
+                filtered = filtered.filter(book => book.title.toLowerCase().includes(searchQuery));
+            }
+
+            setFilteredBooks(filtered);
+        };
+
+        filterBooks();
+    }, [categoryVal, searchQuery, context.bookData]);
+
+
+
     const deleteBook = (id) => {
         const confirmed = window.confirm("Bạn có chắn muốn xóa sách này không?");
         if (confirmed) {
@@ -57,6 +111,12 @@ const BookList = () => {
                     setBookList(res);
                     setIsLoading(false);
                 });
+
+                // Update the filter book list after deletion
+                const updatedBookList = context.bookData.filter((book) => book._id !== id);
+                fetchBookList(); 
+                setFilteredBooks(updatedBookList);
+
                 setTimeout(() => context.setAlertBox({ open: false, error: false, msg: '' }), 2000);
             });
         }
@@ -76,33 +136,19 @@ const BookList = () => {
     const handleChangeCategory = (event) => {
         const selectedCategory = event.target.value;
         setCategoryVal(selectedCategory);
+        console.log("selectedCategory: "+ selectedCategory);
 
-        console.log("event: " + event);
-        console.log("selectedCategory: " + selectedCategory);
-        console.log("event.target.value: " + event.target.value);
-        if (selectedCategory !== "all") {
-            fetchDataFromApi(`/api/categories/${selectedCategory}`).then((res) => {
-                const catName = encodeURIComponent(res.name);
-                fetchDataFromApi(`/api/books?genres=${catName}`).then((res) => {
-                    setBookList(res);
-                    context.setProgress(100);
-                });
-            });
+        const catnameObj = context.catData.find((cat) => cat._id === selectedCategory);
+        const catname = catnameObj ? catnameObj.name : 'all';
+        console.log("cat name: " + catname);
+        setCategoryName(catname);
+    };
 
-            // fetchDataFromApi(`/api/categories/${selectedCategory}`).then((res) => {
-            //     const catName = encodeURIComponent(res.name);
-            //     fetchDataFromApi(`/api/books?genres=${catName}`).then((res) => {
-            //         setBookList(res);
-            //         context.setProgress(100);
-            //     });
-            // });
-        } else {
-            setCategoryVal(selectedCategory);
-            fetchDataFromApi(`/api/books?page=${1}&perPage=${20}`).then((res) => {
-                setBookList(res);
-                context.setProgress(100);
-            });
-        }
+
+    //search book name
+    const handleSearchChange = (e) => {
+        const query = e.target.value.toLowerCase();
+        setSearchQuery(query);
     };
 
 
@@ -159,7 +205,6 @@ const BookList = () => {
                     {/* Category selection */}
                     <div className="row cardFilters mt-3">
                         <div className="col-md-3">
-
                             <h4>THỂ LOẠI</h4>
                             <FormControl size="small" className="w-100">
                                 <Select
@@ -182,8 +227,24 @@ const BookList = () => {
                                     ))}
                                 </Select>
                             </FormControl>
-                            
                         </div>
+
+
+                        <div className="col-md-3">
+                            <h4>Tìm Tên sách</h4>
+                            <FormControl size="small" className="w-100">
+                                <TextField
+                                    placeholder="Nhập tên sách để tìm kiếm..."
+                                    size="small"
+                                    value={searchQuery}
+                                    onChange={handleSearchChange}
+                                />
+                            </FormControl>
+                        </div>
+
+
+
+
                     </div>
 
                     {/* Add button */}
@@ -210,14 +271,14 @@ const BookList = () => {
                                     <th>SỐ TRANG</th>
                                     <th>GIÁ GỐC</th>
                                     <th>% GIẢM GIÁ</th>
-                                    <th>GIÁ MỚI</th>
                                     <th>NXB</th>
                                     <th>ĐÃ BÁN</th>
                                     <th>FLASHSALE</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {bookList?.books?.map((item, index) => (
+                            {filteredBooks.length > 0 ? (
+                                filteredBooks.map((item, index) => (
                                     <tr key={item._id}>
                                         <td className="align-center">
                                             <div className="actions d-flex align-items-center">
@@ -255,7 +316,13 @@ const BookList = () => {
                                         <td>{item.salesNum}</td>
                                         <td>{item.isFSale ? 'Yes' : 'No'}</td>
                                     </tr>
-                                ))}
+                                ))
+                            ) : (
+                                <tr>
+                                    <td colSpan="15" className="text-center">Không tìm thấy</td>
+                                </tr>
+                            )}
+
                             </tbody>
                         </table>
                     </div>
