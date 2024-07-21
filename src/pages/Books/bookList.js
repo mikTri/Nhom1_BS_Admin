@@ -42,7 +42,6 @@ const BookList = () => {
     useEffect(() => {
         window.scrollTo(0, 0);
         context.setProgress(40);
-        fetchDataFromApi("/api/books?page=1&perPage=10").then((res) => {
             setBookList(res);
             setTotalBooks(res.totalBooks);
             context.setProgress(100);
@@ -150,6 +149,8 @@ const BookList = () => {
         const query = e.target.value.toLowerCase();
         setSearchQuery(query);
     };
+
+
 
 
 
@@ -271,6 +272,7 @@ const BookList = () => {
                                     <th>SỐ TRANG</th>
                                     <th>GIÁ GỐC</th>
                                     <th>% GIẢM GIÁ</th>
+                                    <th>GIÁ MỚI</th>
                                     <th>NXB</th>
                                     <th>ĐÃ BÁN</th>
                                     <th>FLASHSALE</th>
@@ -326,9 +328,9 @@ const BookList = () => {
                             </tbody>
                         </table>
                     </div>
-
+                    
                     {/* Pagination */}
-                    <div className="d-flex justify-content-center">
+                    {/* <div className="d-flex justify-content-center">
                         <Pagination
                             count={totalPageCount}
                             page={page}
@@ -339,7 +341,8 @@ const BookList = () => {
                             showFirstButton
                             showLastButton
                         />
-                    </div>
+                    </div> */}
+                    
                 </div>
             </div>
         </>
