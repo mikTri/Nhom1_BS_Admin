@@ -210,7 +210,7 @@ const BookList = () => {
                                     <th>SỐ TRANG</th>
                                     <th>GIÁ GỐC</th>
                                     <th>% GIẢM GIÁ</th>
-                                    <th>VND GIẢM GIÁ</th>
+                                    <th>GIÁ MỚI</th>
                                     <th>NXB</th>
                                     <th>ĐÃ BÁN</th>
                                     <th>FLASHSALE</th>
