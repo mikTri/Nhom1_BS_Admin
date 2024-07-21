@@ -262,8 +262,8 @@ function App() {
 
               {/* <Route path="/login" exact element={<ProtectedRoute element={<Login />} allowedRoles={[1, 2, 3]} />} /> */}
               {/* <Route path="/signUp" exact element={<ProtectedRoute element={<SignUp />} allowedRoles={[1, 2, 3]} />} /> */}
-              <Redirect to="/login" exact={true} element={<Login />} />
-              <Redirect to="/signUp" exact={true} element={<SignUp />} />
+              <Route path="/login" exact={true} element={<Login />} />
+              <Route path="/signUp" exact={true} element={<SignUp />} />
               <Route path="/home" exact={true} element={<Home />} />
 
               {/* <Route path="/home" exact element={<ProtectedRoute element={<Home />} allowedRoles={[1, 2, 3]} />} /> */}
