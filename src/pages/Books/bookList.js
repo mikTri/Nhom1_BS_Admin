@@ -42,6 +42,7 @@ const BookList = () => {
     useEffect(() => {
         window.scrollTo(0, 0);
         context.setProgress(40);
+        fetchDataFromApi("/api/books?page=1&perPage=10").then((res) => {
             setBookList(res);
             setTotalBooks(res.totalBooks);
             context.setProgress(100);
