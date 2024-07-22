@@ -64,7 +64,7 @@ const StaffEdit = () => {
     
 
     const breadcrumbs = [
-        { href: '/', label: 'Trang chủ', icon: <HomeIcon fontSize="small" /> },
+        { href: '/home', label: 'Trang chủ', icon: <HomeIcon fontSize="small" /> },
         { href: '/staffList', label: 'Tài khoản nhân viên' },
         { href: '#', label: 'Cập nhật tài khoản nhân viên' }
     ];
@@ -180,7 +180,7 @@ const StaffEdit = () => {
                     // setTimeout(() => { setIsLoading(false); window.location.href = "/staffList"; }, 2000);
                     setTimeout(() => {
                         context.setAlertBox({ open: true, error: false, msg: "Tài khoản nhân viên đã được cập nhật" }); 
-                        navigate('/'); 
+                        navigate('/home'); 
                         setIsLoading(false);
                     }, 2000 );
                     
@@ -309,8 +309,6 @@ const StaffEdit = () => {
             console.log("formFields: " + formDataWithImages.name + ", " + formDataWithImages.email + ", " + formDataWithImages.phone + ", " + formDataWithImages.address + ", " + formDataWithImages.role + ", " + formDataWithImages.images );
             console.log("staffEmail: " + staffEmail + ", selected email: " + formFields.email);
 
-
-
             if ((staffRole === 1 || staffEmail === formFields.email) &&   //nếu người thực hiện là Admin (role=1) hoặc thao tác trên acc của chính họ và các thông tin đều hợp lệ
                 formFields.name !== "" && formFields.email !== "" && formFields.phone !== "" && formFields.address !== ""
             ) 
@@ -323,14 +321,7 @@ const StaffEdit = () => {
                             setIsLoading(false);
                         }, 2000 );
                     });
-                    
-                    if(staffRole === 1){
-                        setTimeout(() => {setIsLoading(false); navigate('/staffList'); }, 2000);
-                    }
-                    else {
-                        setTimeout(() => {setIsLoading(false); navigate('/'); }, 2000);
-                    }
-                
+                setTimeout(() => {setIsLoading(false); navigate('/staffList'); }, 2000);
             }
             else {
                 setIsLoading(false);

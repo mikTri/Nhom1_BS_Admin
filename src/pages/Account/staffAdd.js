@@ -46,7 +46,7 @@ const StaffAdd = () => {
     const navigate = useNavigate();
 
     const breadcrumbs = [
-        { href: '/', label: 'Trang chủ', icon: <HomeIcon fontSize="small" /> },
+        { href: '#', label: 'Quản lý tài khoản', icon: <HomeIcon fontSize="small" /> },
         { href: '/staffList', label: 'Tài khoản nhân viên' },
         { href: '#', label: 'Thêm nhân viên mới'}
     ];

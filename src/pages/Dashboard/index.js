@@ -46,7 +46,7 @@ const Dashboard = () => {
 
 
     const breadcrumbs = [
-        { href: '/', label: 'Trang chủ', icon: <HomeIcon fontSize="small" /> },
+        { href: '/home', label: 'Trang chủ', icon: <HomeIcon fontSize="small" /> },
         { href: '#', label: 'Báo cáo thống kê' }
     ];
 
@@ -207,7 +207,7 @@ const Dashboard = () => {
                         <DashboardBox color={["#1da256", "#48d483"]} icon={<FaUserCircle />} grow={true} title="Tổng Khách hàng" count={totalUsers} />
                         <DashboardBox color={["#c012e2", "#eb64fe"]} icon={<IoMdCart />} grow={true} title="Tổng nhân viên" count={totalStaffs} />
                         <DashboardBox color={["#e1950e", "#f3cd29"]} icon={<FaUserCircle />} grow={true} title="Tổng lượt đánh giá" count={totalReview} />
-                        <DashboardBox color={["#2c78e5", "#60aff5"]} icon={<MdShoppingBag />} grow={true} title="Tổng số NXB" count={totalPublisher} />
+                       
 
                         <DashboardBox color={["#2c78e5", "#60aff5"]} icon={<MdShoppingBag />} grow={true} title="Tổng sản phẩm" count={totalBooks} />
                         <DashboardBox color={["#e1950e", "#f3cd29"]} icon={<GiStarsStack />} grow={true} title="Tổng đơn hàng" count={totalOrders} />

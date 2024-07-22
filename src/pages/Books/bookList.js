@@ -35,7 +35,7 @@ const BookList = () => {
 
 
     const breadcrumbs = [
-        { href: '/', label: 'Trang chủ', icon: <HomeIcon fontSize="small" /> },
+        { href: '/home', label: 'Trang chủ', icon: <HomeIcon fontSize="small" /> },
         { href: '/bookList', label: 'Danh sách sản phẩm' }
     ];
 
@@ -233,7 +233,7 @@ const BookList = () => {
 
 
                         <div className="col-md-3">
-                            <h4>TÌM TÊN SÁCH</h4>
+                            <h4>Tìm Tên sách</h4>
                             <FormControl size="small" className="w-100">
                                 <TextField
                                     placeholder="Nhập tên sách để tìm kiếm..."
@@ -273,7 +273,7 @@ const BookList = () => {
                                     <th>SỐ TRANG</th>
                                     <th>GIÁ GỐC</th>
                                     <th>% GIẢM GIÁ</th>
-                                    <th>VND GIẢM GIÁ</th>
+                                    <th>GIÁ MỚI</th>
                                     <th>NXB</th>
                                     <th>ĐÃ BÁN</th>
                                     <th>FLASHSALE</th>
@@ -329,7 +329,7 @@ const BookList = () => {
                             </tbody>
                         </table>
                     </div>
-
+                    
                     {/* Pagination */}
                     {/* <div className="d-flex justify-content-center">
                         <Pagination
@@ -343,6 +343,7 @@ const BookList = () => {
                             showLastButton
                         />
                     </div> */}
+                    
                 </div>
             </div>
         </>
