@@ -67,7 +67,7 @@ const EditUpload = () => {
         window.scrollTo(0, 0);
         setCatData(context.catData);
  
-        fetchDataFromApi(`/api/books/${id}`)
+        fetchDataFromApi(`/api/books/get-single-book/${id}`)
             .then((res) => {
                 setProducts(res);
                 setFormFields({
