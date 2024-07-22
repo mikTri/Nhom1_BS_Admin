@@ -42,7 +42,7 @@ const Sidebar = () => {
             setIsLogin(true);
         }
         else {
-            navigate("/login");
+            navigate("/");
         }
     }, []);
 
@@ -51,7 +51,7 @@ const Sidebar = () => {
         localStorage.clear();
 
         context.setAlertBox({  open: true, error: false, msg: "Logout successfull" })
-        setTimeout(() => { navigate("/login"); }, 2000);
+        setTimeout(() => { navigate("/"); }, 2000);
     }
 
     return (
@@ -61,7 +61,7 @@ const Sidebar = () => {
 
                     {/* HOME */}
                     <li>
-                        <NavLink activeclassname='is-active' to="/home">
+                        <NavLink activeclassname='is-active' to="/">
                             <Button className={`w-100 ${activeTab === 0 ? 'active' : ''}`} onClick={() => isOpenSubmenu(0)}>
                                 <span className='icon'><MdHome /></span>
                                 TRANG CHỦ
@@ -110,8 +110,8 @@ const Sidebar = () => {
                         <div className={`submenuWrapper ${activeTab === 4 && isToggleSubmenu === true ? 'colapse' : 'colapsed'}`}>
                             <ul className='submenu'>
                                 <li><NavLink activeclassname='is-active' to="/cartList">Quản lý giỏ hàng (cart list)</NavLink></li>
-                                
-                                <li><NavLink activeclassname='is-active' to="/orderList">Quản lý đơn hàng (order list)</NavLink></li>
+                                <li><NavLink activeclassname='is-active' to="/myList">Quản lý danh sách yêu thích (my list)</NavLink></li>
+                                <li><NavLink activeclassname='is-active' to="/orderList">Quản lý hóa đơn (order)</NavLink></li>
                             </ul>
                         </div>
                     </li>

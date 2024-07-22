@@ -37,7 +37,7 @@ const OrderAdd = () => {
         phoneNumber: '',
         address: '',
         amount: 0,
-        paymentId: '',
+        // paymentId: '',
         email: '',
         userid: '',
         status: '',
@@ -369,7 +369,7 @@ const OrderAdd = () => {
                                     
                                     <div className='col'>
                                         <div className='form-group'>
-                                            <h6>Mã Thanh Toán</h6>
+                                            <h6>Mã Thẻ Thanh Toán</h6>
                                             <input type='text' name="paymentId" value={formFields.paymentId} onChange={handleFormChange} />
                                         </div>
                                     </div>
@@ -385,8 +385,7 @@ const OrderAdd = () => {
                                         </div>
                                     </div>
 
-                                </div>
-                           
+                                </div>                           
 
                             </div>
                         </div>

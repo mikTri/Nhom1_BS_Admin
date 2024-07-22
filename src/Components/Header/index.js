@@ -59,7 +59,7 @@ const Header = () => {
         setIsLoading(true);
         setTimeout(() => {
             context.setAlertBox({ open:true, error:false, msg:"Đăng xuất thành công!" }); 
-            window.location.href = "/home";
+            window.location.href = "/";
             setIsLoading(false);}, 2000
         );
 
@@ -206,7 +206,7 @@ const Header = () => {
                             {/* USER ICON */}
                             {
                                 context.isLogin !== true ?                                                                      //if
-                                <Link to={'/login'}><Button className='btn-blue btn-lg btn-round'>Sign In</Button></Link> :     //then
+                                <Link to={'/'}><Button className='btn-blue btn-lg btn-round'>Đăng nhập</Button></Link> :     //then
                                 <div className="myAccWrapper">                                                                  {/*else*/}
                                     <Button className="myAcc d-flex align-items-center" onClick={handleOpenMyAccDrop}>
                                         {/* hiển thị tên user */}
@@ -240,7 +240,7 @@ const Header = () => {
                                         {/* logout */}
                                         <MenuItem onClick={logout}>
                                             <ListItemIcon><Logout fontSize="small" /></ListItemIcon>
-                                            Logout
+                                            Đăng xuất
                                         </MenuItem>
 
                                     </Menu>

@@ -165,7 +165,7 @@ const OrderList = () => {
                             <thead className="thead-dark">
                                 <tr>
                                     <th>THAO TÁC</th>
-                                    <th>MÃ HOÁ ĐƠN</th>
+                                    <th>MÃ GIỎ HÀNG</th>
                                     <th>TRẠNG THÁI</th>
                                     <th>MÃ KHÁCH HÀNG</th>
                                     <th>TÊN KHÁCH HÀNG</th>

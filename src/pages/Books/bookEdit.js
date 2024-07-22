@@ -55,7 +55,7 @@ const EditUpload = () => {
     const context = useContext(MyContext);
 
     const breadcrumbs = [
-        { href: '/home', label: 'Trang chủ', icon: <HomeIcon fontSize="small" /> },
+        { href: '/', label: 'Trang chủ', icon: <HomeIcon fontSize="small" /> },
         { href: '/bookList', label: 'Danh sách sản phẩm' },
         { href: '#', label: 'Cập nhật sản phẩm' }
     ];
@@ -67,7 +67,7 @@ const EditUpload = () => {
         window.scrollTo(0, 0);
         setCatData(context.catData);
  
-        fetchDataFromApi(`/api/books/${id}`)
+        fetchDataFromApi(`/api/books/get-single-book/${id}`)
             .then((res) => {
                 setProducts(res);
                 setFormFields({
