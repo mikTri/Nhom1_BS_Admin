@@ -62,7 +62,7 @@ const CartList = () => {
     
 
     const breadcrumbs = [
-        { href: '/home', label: 'Trang chủ', icon: <HomeIcon fontSize="small" /> },
+        { href: '/', label: 'Trang chủ', icon: <HomeIcon fontSize="small" /> },
         { href: '/cartList', label: 'Danh sách giỏ hàng' }
     ];
 

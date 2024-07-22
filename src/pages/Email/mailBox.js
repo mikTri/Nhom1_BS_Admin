@@ -26,7 +26,7 @@ const MailBox = () => {
     });
 
     const breadcrumbs = [
-        { href: '/home', label: 'Home', icon: <HomeIcon fontSize="small" /> },
+        { href: '/', label: 'Trang chủ', icon: <HomeIcon fontSize="small" /> },
         { href: '/mailBox', label: 'Danh sách Mailbox' }
     ];
 

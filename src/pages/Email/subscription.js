@@ -22,7 +22,7 @@ const Subscription = () => {
     const context = useContext(MyContext);
 
     const breadcrumbs = [
-        { href: '/home', label: 'Home', icon: <HomeIcon fontSize="small" /> },
+        { href: '/', label: 'Trang chủ', icon: <HomeIcon fontSize="small" /> },
         { href: '/subscription', label: 'Danh sách Đăng ký nhận bảng tin' }
     ];
 
