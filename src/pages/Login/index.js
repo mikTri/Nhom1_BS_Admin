@@ -44,12 +44,12 @@ const Login = () => {
         const token = localStorage.getItem("token");
         if (token !== "" && token !== undefined && token !== null) {
             setIsLogin(true);
-            navigate('/'); 
+            navigate('/home'); 
         }
         else {
             navigate('/login'); 
         }
-    }, [navigate, context]);
+    }, []);
 
     const focusInput = (index) => { setInputIndex(index); }
 
@@ -87,12 +87,8 @@ const Login = () => {
 
                     localStorage.setItem("staff", JSON.stringify(staff));
 
-                    
-                    setTimeout(() => { 
-                        setIsLoading(false); 
-                        context.setAlertBox({ open: false, error: false, msg: "Bạn đã đăng nhập thành công!" });
-                        navigate('/'); 
-                    }, 2000);
+                    context.setAlertBox({ open: true, error: false, msg: "Bạn đã đăng nhập thành công!" });
+                    setTimeout(() => { setIsLoading(false); navigate('/home'); }, 2000);
     
                 }
                 else {

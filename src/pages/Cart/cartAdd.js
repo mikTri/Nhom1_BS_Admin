@@ -31,7 +31,7 @@ const CartAdd = () => {
     });
 
     const breadcrumbs = [
-        { href: '/', label: 'Trang chủ', icon: <HomeIcon fontSize="small" /> },
+        { href: '/home', label: 'Trang chủ', icon: <HomeIcon fontSize="small" /> },
         { href: '/cartList', label: 'Danh sách giỏ hàng' },
         { href: '#', label: 'Thêm sản phẩm mới vào giỏ hàng' }
     ];

@@ -34,7 +34,7 @@ const UserAdd = () => {
     const navigate = useNavigate();
 
     const breadcrumbs = [
-        { href: '/', label: 'Trang chủ', icon: <HomeIcon fontSize="small" /> },
+        { href: '#', label: 'Quản lý tài khoản', icon: <HomeIcon fontSize="small" /> },
         { href: '/userList', label: 'Tài khoản khách hàng' },
         { href: '#', label: 'Thêm khách hàng mới' }
     ];

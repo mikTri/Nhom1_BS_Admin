@@ -56,7 +56,7 @@ const AuthorList = () => {
     
 
     const breadcrumbs = [
-        { href: '/', label: 'Trang chủ', icon: <HomeIcon fontSize="small" /> },
+        { href: '/home', label: 'Trang chủ', icon: <HomeIcon fontSize="small" /> },
         { href: '/authorList', label: 'Danh sách tác giả' }
     ];
 
