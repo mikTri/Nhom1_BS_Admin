@@ -5,7 +5,6 @@ import Button from '@mui/material/Button';
 import CircularProgress from '@mui/material/CircularProgress';
 
 import Breadcrumb from '../../Components/Breadcrumb';
-import BookDropdown from '../../Components/BookDropdown';
 import { fetchDataFromApi, editData } from "../../utils/api";
 
 import { MyContext } from '../../App';
@@ -13,12 +12,7 @@ import { MyContext } from '../../App';
 const CartEdit = () => {
     const navigate = useNavigate();
     const context = useContext(MyContext);
-
-    const [cartData, setCartData] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
-    const [file, setFile] = useState(null);
-    const [image, setImage] = useState('');
-    const [preview, setPreview] = useState('');
 
     const [formFields, setFormFields] = useState({
         productTitle: '',

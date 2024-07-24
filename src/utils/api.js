@@ -1,5 +1,6 @@
 import axios from "axios";
 
+
 export const fetchDataFromApi = async (url) => {
     try {
         const { data } = await axios.get(process.env.REACT_APP_BASE_URL + url);
@@ -9,6 +10,7 @@ export const fetchDataFromApi = async (url) => {
         return error.response ? error.response.data : { error: "Something went wrong" };
     }
 }
+
 
 // const result = await axios.post("http://localhost:4000/api/uploadImage", { image });
 export const uploadImage = async (url, {image}) => {
@@ -23,7 +25,6 @@ export const uploadImage = async (url, {image}) => {
 };
 
   
-
 export const postData = async (url, formData) => {
     try {
         const response = await fetch(process.env.REACT_APP_BASE_URL + url, {
@@ -47,6 +48,7 @@ export const postData = async (url, formData) => {
     }
 }
 
+
 export const postFile = async (url, formData) => {
     try {
         const response = await axios.post(process.env.REACT_APP_BASE_URL + url, formData, {
@@ -65,7 +67,6 @@ export const postFile = async (url, formData) => {
 }
 
 
-
 export const editData = async (url, updatedData) => {
     try {
         const { data } = await axios.put(`${process.env.REACT_APP_BASE_URL}${url}`, updatedData);
@@ -75,17 +76,7 @@ export const editData = async (url, updatedData) => {
         return error.response ? error.response.data : { error: "Something went wrong" };
     }
 }
-// export const editData = async (url, updatedData ) => {
-//     try{
-//         const { res } = await axios.put(`${process.env.REACT_APP_API_URL}${url}`,updatedData);
-//         return res;
-//     }
-//     catch(error){
-//         console.error('Error:', error);
-//         throw error;
-//     }
-    
-// }
+
 
 export const deleteData = async (url) => {
     try {
@@ -96,6 +87,7 @@ export const deleteData = async (url) => {
         return error.response ? error.response.data : { error: "Something went wrong" };
     }
 }
+
 
 export const deleteImages = async (url, image) => {
     try {

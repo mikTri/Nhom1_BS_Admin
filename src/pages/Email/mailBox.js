@@ -1,32 +1,22 @@
 import { useContext, useEffect, useState } from "react";
 import { MdShoppingBag } from "react-icons/md";
-import { RxEyeOpen } from "react-icons/rx";
-import { TbEyeClosed } from "react-icons/tb";
-import Button from '@mui/material/Button';
 import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
 import HomeIcon from '@mui/icons-material/Home';
 import TextField from '@mui/material/TextField';
 import DashboardBox from '../../Components/Dashboard';
-import { editData, fetchDataFromApi } from '../../utils/api';
+import { fetchDataFromApi } from '../../utils/api';
 import Breadcrumb from '../../Components/Breadcrumb';
 import { MyContext } from '../../App';
 
 const MailBox = () => {
     const [mailBoxList, setMailBoxList] = useState([]);
-    const [isLoading, setIsLoading] = useState(false);
-
     const [searchQuery, setSearchQuery] = useState("");
     const [filteredMail, setFilteredMail] = useState([]);
 
     const context = useContext(MyContext);
 
-    const [formFields, setFormFields] = useState({
-        isVisible: false
-    });
-
     const breadcrumbs = [
-        { href: '/home', label: 'Home', icon: <HomeIcon fontSize="small" /> },
+        { href: '/', label: 'Trang chủ', icon: <HomeIcon fontSize="small" /> },
         { href: '/mailBox', label: 'Danh sách Mailbox' }
     ];
 

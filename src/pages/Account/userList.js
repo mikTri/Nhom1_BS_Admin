@@ -8,7 +8,7 @@ import { MdDelete } from "react-icons/md";
 
 // Material-UI
 import Button from '@mui/material/Button';
-import Pagination from '@mui/material/Pagination';
+// import Pagination from '@mui/material/Pagination';
 import HomeIcon from '@mui/icons-material/Home';
 
 // Lazy load image
@@ -35,7 +35,7 @@ const UserList = () => {
     
     // title + link:
     const breadcrumbs = [
-        { href: '#', label: 'Quản lý tài khoản', icon: <HomeIcon fontSize="small" /> },
+        { href: '/', label: 'Trang chủ', icon: <HomeIcon fontSize="small" /> },
         { href: '/userList', label: 'Tài khoản khách hàng' }
     ];
 
@@ -74,15 +74,15 @@ const UserList = () => {
     }
 
     // 
-    const handleChange = (event, value) => {
-        context.setProgress(40);
-        setPage(value)
-        fetchDataFromApi(`/api/user?page=${value}&perPage=10`).then((res) => {
-            setUserList(res);
-            context.setProgress(100);
-            window.scrollTo({ top: 200, behavior: 'smooth', })
-        })
-    };
+    // const handleChange = (event, value) => {
+    //     context.setProgress(40);
+    //     setPage(value)
+    //     fetchDataFromApi(`/api/user?page=${value}&perPage=10`).then((res) => {
+    //         setUserList(res);
+    //         context.setProgress(100);
+    //         window.scrollTo({ top: 200, behavior: 'smooth', })
+    //     })
+    // };
 
 
     return (
@@ -163,7 +163,7 @@ const UserList = () => {
                         </table>
 
 
-                        {
+                        {/* {
                             userList?.totalPages > 1 &&
                             <div className="d-flex tableFooter">
                                 <Pagination count={userList?.totalPages} 
@@ -173,7 +173,7 @@ const UserList = () => {
                                             showLastButton 
                                             onChange={handleChange} />
                             </div>
-                        }
+                        } */}
 
                     </div>
                 </div>

@@ -8,7 +8,7 @@ import { MdDelete } from "react-icons/md";
 
 // Material-UI
 import Button from '@mui/material/Button';
-import Pagination from '@mui/material/Pagination';
+// import Pagination from '@mui/material/Pagination';
 import HomeIcon from '@mui/icons-material/Home';
 
 // Lazy load image
@@ -33,7 +33,7 @@ const StaffList = () => {
 
     // title + link:
     const breadcrumbs = [
-        { href: '#', label: 'Quản lý tài khoản', icon: <HomeIcon fontSize="small" /> },
+        { href: '/', label: 'Trang chủ', icon: <HomeIcon fontSize="small" /> },
         { href: '/staffList', label: 'Tài khoản nhân viên' }
     ];
 
@@ -72,15 +72,15 @@ const StaffList = () => {
     }
 
     // 
-    const handleChange = (event, value) => {
-        context.setProgress(40);
-        setPage(value)
-        fetchDataFromApi(`/api/staff?page=${value}&perPage=10`).then((res) => {
-            setStaffList(res);
-            context.setProgress(100);
-            window.scrollTo({ top: 200, behavior: 'smooth', })
-        })
-    };
+    // const handleChange = (event, value) => {
+    //     context.setProgress(40);
+    //     setPage(value)
+    //     fetchDataFromApi(`/api/staff?page=${value}&perPage=10`).then((res) => {
+    //         setStaffList(res);
+    //         context.setProgress(100);
+    //         window.scrollTo({ top: 200, behavior: 'smooth', })
+    //     })
+    // };
 
 
     return (
@@ -173,7 +173,7 @@ const StaffList = () => {
 
 
                         {/* Pagination */}
-                        {
+                        {/* {
                             staffList?.totalPages > 1 &&
                             <div className="d-flex tableFooter">
                                 <Pagination count={staffList?.totalPages} 
@@ -183,7 +183,7 @@ const StaffList = () => {
                                             showLastButton 
                                             onChange={handleChange} />
                             </div>
-                        }
+                        } */}
 
                     </div>
                 </div>

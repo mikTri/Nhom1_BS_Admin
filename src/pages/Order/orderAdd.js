@@ -19,8 +19,6 @@ const OrderAdd = () => {
     const navigate = useNavigate();
     const context = useContext(MyContext);
 
-    // const [selectedBook, setSelectedBook] = useState(null);
-    const [selectedUser, setSelectedUser] = useState(null);
     const [userList, setUserList] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
 
@@ -58,7 +56,7 @@ const OrderAdd = () => {
     ];
 
     // fetch data
-    const { fetchBookList, bookData } = useContext(MyContext);
+    const { fetchBookList } = useContext(MyContext);
 
     
     useEffect(() => {
@@ -203,6 +201,11 @@ const OrderAdd = () => {
 
         if (formFields.products.length === 0) {
             context.setAlertBox({ open: true, error: true, msg: 'Vui lòng thêm ít nhất một sản phẩm' });
+            return;
+        }
+
+        if (formFields.paymentId.length === 0) {
+            context.setAlertBox({ open: true, error: true, msg: 'Vui lòng nhập mã thanh toán' });
             return;
         }
 
@@ -369,7 +372,7 @@ const OrderAdd = () => {
                                     
                                     <div className='col'>
                                         <div className='form-group'>
-                                            <h6>Mã Thanh Toán</h6>
+                                            <h6>Mã Thẻ Thanh Toán*</h6>
                                             <input type='text' name="paymentId" value={formFields.paymentId} onChange={handleFormChange} />
                                         </div>
                                     </div>
@@ -385,8 +388,7 @@ const OrderAdd = () => {
                                         </div>
                                     </div>
 
-                                </div>
-                           
+                                </div>                           
 
                             </div>
                         </div>

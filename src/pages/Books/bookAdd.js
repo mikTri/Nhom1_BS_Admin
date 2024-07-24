@@ -47,7 +47,7 @@ const BookAdd = () => {
     });
 
     const breadcrumbs = [
-        { href: '/home', label: 'Trang chủ', icon: <HomeIcon fontSize="small" /> },
+        { href: '/', label: 'Trang chủ', icon: <HomeIcon fontSize="small" /> },
         { href: '/bookList', label: 'Danh sách sản phẩm' },
         { href: '#', label: 'Thêm sản phẩm mới' }
     ];

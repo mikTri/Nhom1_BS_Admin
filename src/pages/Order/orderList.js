@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { MdShoppingBag, MdDelete } from "react-icons/md";
-import { FaPlus, FaPencilAlt } from "react-icons/fa";
+import { FaPlus } from "react-icons/fa";
 import Button from '@mui/material/Button';
 import HomeIcon from '@mui/icons-material/Home';
 import TextField from '@mui/material/TextField';
@@ -30,7 +30,7 @@ const OrderList = () => {
                 context.setProgress(40);
                 await fetchOrderList();
                 context.setProgress(100);
-                setfilteredOrders(context.orderData.ordersList);
+                setfilteredOrders(context.orderData);
 
             } catch (error) {
                 console.error("Failed to fetch order", error);
@@ -45,7 +45,7 @@ const OrderList = () => {
     }, []);
 
     useEffect(() => {
-        setfilteredOrders(context.orderData.ordersList); 
+        setfilteredOrders(context.orderData); 
     }, [context.orderData]);
 
 
@@ -87,9 +87,9 @@ const OrderList = () => {
     };
 
     const applyFilters = (Query1, Query2) => {
-        setfilteredOrders(context.orderData.ordersList);
+        setfilteredOrders(context.orderData);
         
-        let filtered = context.orderData.ordersList || [];
+        let filtered = context.orderData || [];
 
         if (Query1) {
             filtered = filtered.filter(order => order._id?.toLowerCase().includes(Query1));
@@ -116,7 +116,7 @@ const OrderList = () => {
                 <div className="row dashboardBoxWrapperRow dashboardBoxWrapperRowV2 pt-0">
                     <div className="col-md-12">
                         <div className="dashboardBoxWrapper d-flex">
-                            <DashboardBox color={["#1da256", "#48d483"]} icon={<MdShoppingBag />} title="Tổng số lượng hóa đơn" count={orderData.ordersList ? orderData.ordersList.length : 0} grow={true} />
+                            <DashboardBox color={["#1da256", "#48d483"]} icon={<MdShoppingBag />} title="Tổng số lượng hóa đơn" count={orderData ? orderData.length : 0} grow={true} />
                         </div>
                     </div>
                 </div>
@@ -165,7 +165,7 @@ const OrderList = () => {
                             <thead className="thead-dark">
                                 <tr>
                                     <th>THAO TÁC</th>
-                                    <th>MÃ HOÁ ĐƠN</th>
+                                    <th>MÃ GIỎ HÀNG</th>
                                     <th>TRẠNG THÁI</th>
                                     <th>MÃ KHÁCH HÀNG</th>
                                     <th>TÊN KHÁCH HÀNG</th>

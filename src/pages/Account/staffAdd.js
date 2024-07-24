@@ -46,7 +46,7 @@ const StaffAdd = () => {
     const navigate = useNavigate();
 
     const breadcrumbs = [
-        { href: '#', label: 'Quản lý tài khoản', icon: <HomeIcon fontSize="small" /> },
+        { href: '/', label: 'Trang chủ', icon: <HomeIcon fontSize="small" /> },
         { href: '/staffList', label: 'Tài khoản nhân viên' },
         { href: '#', label: 'Thêm nhân viên mới'}
     ];
@@ -127,7 +127,7 @@ const StaffAdd = () => {
             if (!res.error) {
                 setIsLoading(true);
                 context.setAlertBox({ open: true, msg: 'Tài khoản Nhân viên đã được tạo!', error: false });
-                setTimeout(() => { setIsLoading(false); navigate('/staffList'); }, 2000);
+                setTimeout(() => { setIsLoading(false); context.setAlertBox({ open: false }); navigate('/staffList'); }, 2000);
             } else {
                 setIsLoading(false);
                 context.setAlertBox({ open: true, error: true, msg: res.msg });

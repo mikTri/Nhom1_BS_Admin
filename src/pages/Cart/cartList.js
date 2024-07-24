@@ -10,7 +10,7 @@ import FormControl from '@mui/material/FormControl';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import 'react-lazy-load-image-component/src/effects/blur.css';
 import DashboardBox from '../../Components/Dashboard';
-import { deleteData, fetchDataFromApi } from "../../utils/api";
+import { deleteData } from "../../utils/api";
 import Breadcrumb from '../../Components/Breadcrumb';
 
 import { MyContext } from "../../App";
@@ -26,13 +26,6 @@ const CartList = () => {
 
     const { fetchCartList, cartData } = useContext(MyContext);
 
-    // useEffect(() => {
-    //     fetchCartList();
-    // }, []);
-
-    // useEffect(() => {
-    //     setFilteredCarts(context.cartData);
-    // }, []);
     
     useEffect(() => {
         const loadCarts = async () => {
@@ -62,7 +55,7 @@ const CartList = () => {
     
 
     const breadcrumbs = [
-        { href: '/home', label: 'Trang chủ', icon: <HomeIcon fontSize="small" /> },
+        { href: '/', label: 'Trang chủ', icon: <HomeIcon fontSize="small" /> },
         { href: '/cartList', label: 'Danh sách giỏ hàng' }
     ];
 

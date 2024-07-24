@@ -5,7 +5,6 @@ import Button from '@mui/material/Button';
 import CircularProgress from '@mui/material/CircularProgress';
 
 import Breadcrumb from '../../Components/Breadcrumb';
-import BookDropdown from '../../Components/BookDropdown';
 import { fetchDataFromApi, editData } from "../../utils/api";
 
 import { MyContext } from '../../App';
@@ -29,7 +28,7 @@ const CartEdit = () => {
     let { id } = useParams();
     
     const breadcrumbs = [
-        { href: '/home', label: 'Trang chủ', icon: <HomeIcon fontSize="small" /> },
+        { href: '/', label: 'Trang chủ', icon: <HomeIcon fontSize="small" /> },
         { href: '/cartList', label: 'Danh sách giỏ hàng' },
         { href: '#', label: 'Cập nhật giỏ hàng' }
     ];

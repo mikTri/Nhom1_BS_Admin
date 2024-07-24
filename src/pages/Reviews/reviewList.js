@@ -30,7 +30,7 @@ const ReviewList = () => {
     });
 
     const breadcrumbs = [
-        { href: '/home', label: 'Trang chủ', icon: <HomeIcon fontSize="small" /> },
+        { href: '/', label: 'Trang chủ', icon: <HomeIcon fontSize="small" /> },
         { href: '/reviewList', label: 'Danh sách đánh giá của khách hàng' }
     ];
 
@@ -51,34 +51,41 @@ const ReviewList = () => {
             });
     }, []);
 
-    const handleToggleReview = (id, isVisible) => {
-        const confirmed = window.confirm(
-            isVisible === true ? 
-                                        'Bạn có chắc chắn muốn tắt hiển thị đánh giá này không?' : 
-                                        'Bạn có chắc chắn muốn mở hiển thị đánh giá này không?'
-                                        );
+
+
+    const handleToggleReview = async (id, isVisible) => {
+        const confirmed = window.confirm( isVisible === true ? 
+            'Bạn có chắc chắn muốn tắt hiển thị đánh giá này không?' : 
+            'Bạn có chắc chắn muốn mở hiển thị đánh giá này không?' 
+        );
 
         if (confirmed) {
-            context.setProgress(100);
-            setFormFields({ isVisible: !isVisible });
-
             setIsLoading(true);
-            console.log("id: " + id);
-            editData(`/api/reviews/${id}`, { isVisible: !isVisible })
-                .then((res) => {
-                    // context.setAlertBox({ open: true, error: false, msg: isVisible ? 'Trạng thái của đánh giá đã được tắt' : 'Trạng thái của đánh giá đã được bật' });
-                    setReviewList(reviewList.map(review => review.id === id ? { ...review, isVisible: !isVisible } : review));
-                    setTimeout(() => {
-                        context.setAlertBox({ open: true, error: false, msg: isVisible ? 'Trạng thái của đánh giá đã được tắt' : 'Trạng thái của đánh giá đã được bật' });
-                        // navigate('/reviewList'); 
-                        navigate(0);
-                        setIsLoading(false);}, 2000
-                    );
-                })
-                .catch(error => {
-                    setIsLoading(false);
-                    console.error('Error updating review:', error);
-                });
+            setReviewList((prevReviews) =>
+                prevReviews.map(review =>
+                    review._id === id ? { ...review, isVisible: !isVisible } : review
+                )
+            );
+            setFilteredReviews((prevFilteredReviews) =>
+                prevFilteredReviews.map(review =>
+                    review._id === id ? { ...review, isVisible: !isVisible } : review
+                )
+            );
+
+            try {
+                const res = await editData(`/api/reviews/${id}`, { isVisible: !isVisible });
+                setFilteredReviews((prevFilteredReviews) =>
+                    prevFilteredReviews.map(review =>
+                        review._id === id ? { ...review, isVisible: !isVisible } : review
+                    )
+                );
+                
+                setIsLoading(false); 
+            } 
+            catch (error) {
+                setIsLoading(false);
+                console.error('Error updating review:', error);
+            }
         }
     };
 
@@ -115,6 +122,8 @@ const ReviewList = () => {
             </div>
         );
     };
+
+
 
     return (
         <>

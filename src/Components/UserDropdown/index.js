@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import Slide from '@mui/material/Slide';
@@ -6,12 +6,14 @@ import { FaAngleDown } from "react-icons/fa6";
 import { IoIosSearch } from "react-icons/io";
 import { IoCloseOutline } from "react-icons/io5";
 import { fetchDataFromApi } from "../../utils/api";
-import { MyContext } from '../../App';
+
 
 // POPUP Transition: tạo hiệu ứng trượt lên của bảng pop up
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
+
+
 
 const UserDropdown = ({ onSelectUser }) => {
     const [isOpenModal, setIsOpenModal] = useState(false);

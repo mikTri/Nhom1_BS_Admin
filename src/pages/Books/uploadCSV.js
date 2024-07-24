@@ -2,8 +2,7 @@ import React, { useContext, useState } from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter, Table } from 'reactstrap';
 import Button from '@mui/material/Button';
 import { BsFiletypeCsv } from 'react-icons/bs';
-import axios from 'axios';
-import Papa from 'papaparse'; // Import PapaParse here
+import Papa from 'papaparse'; 
 import { MyContext } from "../../App";
 import { postFile } from '../../utils/api';
 

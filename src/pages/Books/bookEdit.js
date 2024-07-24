@@ -8,9 +8,6 @@ import Rating from '@mui/material/Rating';
 import Button from '@mui/material/Button';
 import CircularProgress from '@mui/material/CircularProgress';
 
-import { LazyLoadImage } from 'react-lazy-load-image-component';
-import 'react-lazy-load-image-component/src/effects/blur.css';
-
 import { editData, fetchDataFromApi, uploadImage } from '../../utils/api';
 import Breadcrumb from '../../Components/Breadcrumb';
 import { MyContext } from '../../App';
@@ -55,7 +52,7 @@ const EditUpload = () => {
     const context = useContext(MyContext);
 
     const breadcrumbs = [
-        { href: '/home', label: 'Trang chủ', icon: <HomeIcon fontSize="small" /> },
+        { href: '/', label: 'Trang chủ', icon: <HomeIcon fontSize="small" /> },
         { href: '/bookList', label: 'Danh sách sản phẩm' },
         { href: '#', label: 'Cập nhật sản phẩm' }
     ];

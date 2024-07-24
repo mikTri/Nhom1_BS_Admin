@@ -87,7 +87,6 @@ header .part2{padding-left: 70px;}
 .dropdownInfo h4{font-size: 13px; font-weight: 500; white-space: break-spaces; line-height: 20px; margin-top: 0px; margin-bottom: 0px;}
 .dropdownInfo h4 b{font-weight: 600; margin-right: 5px;}
 .dropdownInfo p{font-size: 12px; font-weight: 500; margin-top: 0px;}
-.text-sky{color: #0858f7 !important; font-weight: 500 !important;}
 .dropdown_list .scroll{max-height: 300px; overflow-y: scroll; overflow-x: hidden;}
 
 
@@ -209,6 +208,12 @@ table td .imgWrapper .card {border-radius: 10px !important; overflow: hidden !im
 table td .info {width: 65%; flex: 0 0 65%;}
 table td .info h6 {overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 14px; font-weight: 600; margin-bottom: 0px;}
 table td .info p {font-size: 13px; line-height: 18px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: #5e5d72; margin-bottom: 0px;}
+.nxb-column {
+  width: 10px !important;
+  white-space: nowrap; 
+}
+
+
 table .align-center {text-align: center;}
 table.v-align td .productBox {width: 150px;}
 .tableFooter {padding-bottom: 20px;}
@@ -219,8 +224,9 @@ table.v-align td .productBox {width: 150px;}
 
 
 /* login (pages/Login) */
-.loginPatern{width: 100%; height: 100%; opacity: 0.1; position: fixed; top: 0px; left: 0px; z-index: 99; pointer-events: none;}
-.loginSection .loginBox{width: 350px; height: auto; margin:auto;}
+.loginPatern{width: 70%; height: 70%; opacity: 0.1; position: fixed; z-index: 99; pointer-events: none; display: flex; justify-content: center; align-items: center; top: 65%; left: 50%; transform: translate(-50%, -50%);}
+.loginPatern img {max-width: 100%; max-height: 100%;}
+.loginSection .loginBox{width: 350px; height: auto; margin:auto; padding-top: 30px;}
 .loginSection .loginBox .wrapper{width: 100%; height: auto; background: #f0f0f0; position: relative; z-index: 100; padding: 35px;}
 .loginSection .loginBox .wrapper .form-group{margin-bottom: 18px;}
 .loginSection .loginBox .wrapper .form-control{background: #fff; box-shadow: none !important; outline: none !important; border-radius: 8px !important; font-size: 14px; font-weight: 600; height: 45px; padding-left: 40px;}
@@ -537,9 +543,25 @@ form .btn-blue{position: relative; z-index: 100;}
 
 
 /* home page */
+.home-page {
+  padding: 30px 30px;
+  padding-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Căn giữa theo chiều ngang */
+  justify-content: center; /* Căn giữa theo chiều dọc */
+  height: 100vh; /* Chiều cao của .home-page bằng chiều cao màn hình */
+}
 
-.homepage-logo{width: 10%; height: 20%; opacity: 0.1; top: 70px; left: 0px;}
-.home-page{padding: 100px 30px; padding-bottom: 10px;}
+.home-page img {
+  width: 90%; /* Chiều rộng hình ảnh */
+  max-width: 800px; /* Giới hạn chiều rộng tối đa */
+  height: auto; /* Giữ tỷ lệ khung hình gốc */
+  opacity: 0.1;
+  margin-bottom: 20px; /* Khoảng cách giữa hình ảnh và nội dung khác */
+}
 
-
-
+.text-sky {
+  color: #0858f7 !important;
+  font-weight: 500 !important;
+}

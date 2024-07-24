@@ -2,8 +2,6 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import './App.css';
 
-// require("dotenv").config();
-
 import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { createContext, useEffect, useState } from 'react';
@@ -42,15 +40,9 @@ import MyList from './pages/MyList/myList.js';
 
 import OrderList from './pages/Order/orderList.js';
 import OrderAdd from './pages/Order/orderAdd.js';
-// import OrderEdit from './pages/Order/orderEdit.js';
 
 import MailBox from './pages/Email/mailBox.js';
 import Subscription from './pages/Email/subscription.js';
-
-import Category from './pages/Category/categoryList';
-import CategoryAdd from "./pages/Category/addCategory";
-import EditCategory from "./pages/Category/editCategory";
-
 
 import UserList from './pages/Account/userList.js';
 import UserAdd from './pages/Account/userAdd.js';
@@ -59,7 +51,6 @@ import UserEdit from './pages/Account/userEdit.js';
 import StaffList from './pages/Account/staffList.js';
 import StaffAdd from './pages/Account/staffAdd.js';
 import StaffEdit from './pages/Account/staffEdit.js';
-
 
 import { fetchDataFromApi } from './utils/api';
 
@@ -85,7 +76,7 @@ function App() {
   const [cartData, setCartData] = useState([]);
   const [myListData, setMyListData] = useState([]);
   const [orderData, setOrderData] = useState([]);
-  // const [baseUrl, setBaseUrl] = useState("http://localhost:4000");
+
   const [baseUrl, setBaseUrl] = process.env.REACT_APP_BASE_URL;
  
 
@@ -108,8 +99,9 @@ function App() {
     else{
       setIsLogin(false);
     }
-  },[isLogin]);
+  },[]);
 
+  
 
   useEffect(() => {
     setProgress(20);
@@ -139,8 +131,6 @@ function App() {
     })
   }
   
-
-
   const fetchAuthorList=()=>{
     fetchDataFromApi('/api/authors/all').then((res) => {
       setAuthorData(res);
@@ -164,7 +154,7 @@ function App() {
   }
 
   const fetchOrderList=()=>{
-    fetchDataFromApi('/api/orders').then((res) => {
+    fetchDataFromApi('/api/orders/all').then((res) => {
       setOrderData(res);
       setProgress(100);
     })
@@ -184,12 +174,16 @@ function App() {
     setIsToggleSidebar,
 
     isLogin,
-    setIsLogin,   
-
-    role,
-    staff,
+    setIsLogin,  
+    
+    
     setStaff,
+    staff,
 
+    setRole,
+    role,
+    
+   
     setProgress,
     baseUrl,
 
@@ -264,47 +258,45 @@ function App() {
               {/* <Route path="/signUp" exact element={<ProtectedRoute element={<SignUp />} allowedRoles={[1, 2, 3]} />} /> */}
               <Route path="/login" exact={true} element={<Login />} />
               <Route path="/signUp" exact={true} element={<SignUp />} />
-              <Route path="/home" exact={true} element={<Home />} />
+              <Route path="/" exact={true} element={<Home />} />
 
               {/* <Route path="/home" exact element={<ProtectedRoute element={<Home />} allowedRoles={[1, 2, 3]} />} /> */}
 
-              <Route path="/dashboard" exact element={<ProtectedRoute element={<Dashboard />} allowedRoles={[1, 2]} />} />
+              <Route path="/dashboard" exact={true} element={<ProtectedRoute element={<Dashboard />} allowedRoles={[1, 2]} ownPage={true} />} />
 
 
-              <Route path="/bookList" exact element={<ProtectedRoute element={<BookList />} allowedRoles={[1, 2, 3]} />} />
-              <Route path="/bookList/bookAdd" exact element={<ProtectedRoute element={<BookAdd />} allowedRoles={[1, 2, 3]} />} />
-              <Route path="/bookList/bookEdit/:id" exact element={<ProtectedRoute element={<BookEdit />} allowedRoles={[1, 2, 3]} />} />
+              <Route path="/bookList" exact element={<ProtectedRoute element={<BookList />} allowedRoles={[1, 2, 3]} ownPage={true} />} />
+              <Route path="/bookList/bookAdd" exact element={<ProtectedRoute element={<BookAdd />} allowedRoles={[1, 2, 3]} ownPage={true} />} />
+              <Route path="/bookList/bookEdit/:id" exact element={<ProtectedRoute element={<BookEdit />} allowedRoles={[1, 2, 3]} ownPage={true} />} />
 
-              <Route path="/category" exact element={<ProtectedRoute element={<Category />} allowedRoles={[1, 2, 3]} />} />
-              <Route path="/category/add" exact element={<ProtectedRoute element={<CategoryAdd />} allowedRoles={[1, 2, 3]} />} />
-              <Route path="/category/edit/:id" exact element={<ProtectedRoute element={<EditCategory />} allowedRoles={[1, 2, 3]} />} />
 
-              <Route path="/authorList" exact element={<ProtectedRoute element={<AuthorList />} allowedRoles={[1, 2, 3]} />} />
-              <Route path="/authorList/authorAdd" exact element={<ProtectedRoute element={<AuthorAdd />} allowedRoles={[1, 2, 3]} />} />
-              <Route path="/authorList/authorEdit/:id" exact element={<ProtectedRoute element={<AuthorEdit />} allowedRoles={[1, 2, 3]} />} />
+              <Route path="/authorList" exact element={<ProtectedRoute element={<AuthorList />} allowedRoles={[1, 2, 3]} ownPage={true} />} />
+              <Route path="/authorList/authorAdd" exact element={<ProtectedRoute element={<AuthorAdd />} allowedRoles={[1, 2, 3]} ownPage={true} />} />
+              <Route path="/authorList/authorEdit/:id" exact element={<ProtectedRoute element={<AuthorEdit />} allowedRoles={[1, 2, 3]} ownPage={true} />} />
 
-              <Route path="/reviewList" exact element={<ProtectedRoute element={<ReviewList />} allowedRoles={[1, 2, 3]} />} />
+              <Route path="/reviewList" exact element={<ProtectedRoute element={<ReviewList />} allowedRoles={[1, 2, 3]} ownPage={true} />} />
 
-              <Route path="/mailBox" exact element={<ProtectedRoute element={<MailBox />} allowedRoles={[1, 2, 3]} />} />
-              <Route path="/subscription" exact element={<ProtectedRoute element={<Subscription />} allowedRoles={[1, 2, 3]} />} />
+              <Route path="/mailBox" exact element={<ProtectedRoute element={<MailBox />} allowedRoles={[1, 2, 3]} />} ownPage={true} />
+              <Route path="/subscription" exact element={<ProtectedRoute element={<Subscription />} allowedRoles={[1, 2, 3]} ownPage={true} />} />
 
-              <Route path="/cartList" exact element={<ProtectedRoute element={<CartList />} allowedRoles={[1, 2, 3]} />} />
-              <Route path="/cartList/cartAdd" exact element={<ProtectedRoute element={<CartAdd />} allowedRoles={[1, 2, 3]} />} />
-              <Route path="/cartList/cartEdit/:id" exact element={<ProtectedRoute element={<CartEdit />} allowedRoles={[1, 2, 3]} />} />
+              <Route path="/cartList" exact element={<ProtectedRoute element={<CartList />} allowedRoles={[1, 2, 3]} ownPage={true} />} />
+              <Route path="/cartList/cartAdd" exact element={<ProtectedRoute element={<CartAdd />} allowedRoles={[1, 2, 3]} ownPage={true} />} />
+              <Route path="/cartList/cartEdit/:id" exact element={<ProtectedRoute element={<CartEdit />} allowedRoles={[1, 2, 3]} ownPage={true} />} />
 
-              <Route path="/myList" exact element={<ProtectedRoute element={<MyList />} allowedRoles={[1, 2, 3]} />} />
+              <Route path="/myList" exact element={<ProtectedRoute element={<MyList />} allowedRoles={[1, 2, 3]} ownPage={true} />} />
 
-              <Route path="/orderList" exact element={<ProtectedRoute element={<OrderList />} allowedRoles={[1, 2, 3]} />} />
-              <Route path="/orderList/orderAdd" exact element={<ProtectedRoute element={<OrderAdd />} allowedRoles={[1, 2, 3]} />} />
+              <Route path="/orderList" exact element={<ProtectedRoute element={<OrderList />} allowedRoles={[1, 2, 3]} />} ownPage={true} />
+              <Route path="/orderList/orderAdd" exact element={<ProtectedRoute element={<OrderAdd />} allowedRoles={[1, 2, 3]} ownPage={true} />} />
               {/* <Route path="/orderList/orderEdit/:id" exact element={<ProtectedRoute element={<OrderEdit />} allowedRoles={[1, 2, 3]} />} /> */}
 
               <Route path="/userList" exact element={<ProtectedRoute element={<UserList />} allowedRoles={[1]} />} />
-              <Route path="/userList/userListAdd" exact element={<ProtectedRoute element={<UserAdd />} allowedRoles={[1]} />} />
-              <Route path="/userList/userEdit/:id/*" element={<ProtectedRoute element={<UserEdit />} allowedRoles={[1]} />} />
+              <Route path="/userList/userListAdd" exact element={<ProtectedRoute element={<UserAdd />} allowedRoles={[1]} ownPage={true} />} />
+              <Route path="/userList/userEdit/:id/*" element={<ProtectedRoute element={<UserEdit />} allowedRoles={[1]} ownPage={true} />} />
 
               <Route path="/staffList" exact element={<ProtectedRoute element={<StaffList />} allowedRoles={[1]} />} />
-              <Route path="/staffList/staffListAdd" exact element={<ProtectedRoute element={<StaffAdd />} allowedRoles={[1]} />} />
-              <Route path="/staffList/staffEdit/:id/*" element={<ProtectedRoute element={<StaffEdit />} allowedRoles={[1]} />} />
+              <Route path="/staffList/staffListAdd" exact element={<ProtectedRoute element={<StaffAdd />} allowedRoles={[1]} ownPage={true} />} />
+              <Route path="/staffList/staffEdit/:id/*" element={<ProtectedRoute element={<StaffEdit />} allowedRoles={[1, 2, 3]} ownPage={true} />} />
+
               
             </Routes> 
           </div>
@@ -319,57 +311,3 @@ export { MyContext }
 
 
 
-
-
-
-{/* <Routes>
-  <Route path="/home" exact={true} element={<Home />} />
-  <Route path="/dashboard" exact={true} element={<Dashboard />} />
-  <Route path="/login" exact={true} element={<Login />} />
-  <Route path="/signUp" exact={true} element={<SignUp />} />
-
-  <Route path="/bookList" exact={true} element={<BookList />} />
-  <Route path="/bookList/bookAdd" exact={true} element={<BookAdd />} />
-  <Route path="/bookList/bookEdit/:id" exact={true} element={<BookEdit />} />
-
-  <Route path="/category" exact={true} element={<Category />} />
-  <Route path="/category/add" exact={true} element={<CategoryAdd />} />
-  <Route path="/category/edit/:id" exact={true} element={<EditCategory />} />
-  
-  <Route path="/subCategory" exact={true} element={<SubCatList />} />
-  <Route path="/subCategory/add" exact={true} element={<SubCatAdd />} />
-  <Route path="/subCategory/edit/:id" exact={true} element={<EditSubCategory />} />
-
-  <Route path="/authorList" exact={true} element={<AuthorList />} />
-  <Route path="/authorList/authorAdd" exact={true} element={<AuthorAdd />} />
-  <Route path="/authorList/authorEdit/:id" exact={true} element={<AuthorEdit />} />
-
-  <Route path="/reviewList" exact={true} element={<ReviewList />} />
-  <Route path="/mailBox" exact={true} element={<MailBox />} />
-  <Route path="/subscription" exact={true} element={<Subscription />} />
-  
-
-  <Route path="/cartList" exact={true} element={<CartList />} />
-  <Route path="/cartList/cartAdd" exact={true} element={<CartAdd />} />
-  <Route path="/cartList/cartEdit/:id" exact={true} element={<CartEdit />} />
-
-  <Route path="/myList" exact={true} element={<MyList />} />
-
-  <Route path="/orderList" exact={true} element={<OrderList />} />
-  <Route path="/orderList/orderAdd" exact={true} element={<OrderAdd />} />
-  <Route path="/orderList/orderEdit/:id" exact={true} element={<OrderEdit />} />
-
-  <Route path="/homeBannerSlide/add" exact={true} element={<AddHomeBannerSlide />} />
-  <Route path="/homeBannerSlide/edit/:id" exact={true} element={<EditHomeBannerSlide />} />
-  <Route path="/homeBannerSlide/list" exact={true} element={<HomeBannerSlideList />} />
-  
-
-  <Route path="/userList" exact={true} element={<UserList />} />
-  <Route path="/userList/userListAdd" exact={true} element={<UserAdd />} />
-  <Route path="/userList/userEdit/:id/*" element={<UserEdit />} /> 
-
-  <Route path="/staffList" exact={true} element={<StaffList />} />
-  <Route path="/staffList/staffListAdd" exact={true} element={<StaffAdd />} />
-  <Route path="/staffList/staffEdit/:id/*" element={<StaffEdit />} /> 
-  
-</Routes> */}

@@ -16,6 +16,8 @@ import Breadcrumb from '../../Components/Breadcrumb';
 import { MyContext } from "../../App";
 
 const Dashboard = () => {
+    // console.log("you're at Dashboard");
+
     const context = useContext(MyContext);
 
     const [userList, setUserList] = useState([]);
@@ -28,8 +30,8 @@ const Dashboard = () => {
 
 
     const { fetchBookList, bookData } = useContext(MyContext);
-    const { fetchOrderList, orderData } = useContext(MyContext);
-    const { fetchAuthorList, authorData } = useContext(MyContext);
+    const { fetchOrderList } = useContext(MyContext);
+    const { fetchAuthorList } = useContext(MyContext);
 
     // chart data
     const [userChartData, setUserChartData] = useState([["Date", "Users"]]);
@@ -39,19 +41,18 @@ const Dashboard = () => {
     const [staffRoleData, setStaffRoleData] = useState([["Role", "Staffs"]]);
 
     const [bookGenresData, setBookGenresData] = useState([["Genres", "Books"]]);
-    
     const [orderChartData, setOrderChartData] = useState([["Date", "Pending", "Paid", "Cancelled"]]);
-    
     const [reviewChartData, setReviewChartData] = useState([["Date", "Reviews"]]);
 
 
     const breadcrumbs = [
-        { href: '/home', label: 'Trang chủ', icon: <HomeIcon fontSize="small" /> },
+        { href: '/', label: 'Trang chủ', icon: <HomeIcon fontSize="small" /> },
         { href: '#', label: 'Báo cáo thống kê' }
     ];
 
     useEffect(() => {
         window.scrollTo(0, 0);
+        console.log("you're at Dashboard");
 
         fetchBookList();
         fetchOrderList();
@@ -132,9 +133,9 @@ const Dashboard = () => {
 
     // orders
     useEffect(() => {
-        if (context.orderData?.ordersList) {
+        if (context.orderData) {
             const data = {};
-            context.orderData.ordersList.forEach(order => {
+            context.orderData.forEach(order => {
                 const date = new Date(order.date).toLocaleDateString();
                 const status = order.status;
                 const amount = parseFloat(order.amount);
@@ -168,27 +169,29 @@ const Dashboard = () => {
     }, [reviewList]);
 
 
-    const totalOrders = context.orderData?.ordersList?.length || 0;
+    const totalOrders = context.orderData?.length || 0;
     
-    const totalRevenue = (context.orderData?.ordersList || [])
+    const totalRevenue = (context.orderData || [])
                         .filter(order => order.status === 'paid')
-                        .reduce((total, order) => total + (order.amount || 0), '');
+                        .reduce((total, order) => total + (parseFloat(order.amount) || 0), 0);
 
-    const totalUnpaid = (context.orderData?.ordersList || [])
+    const totalUnpaid = (context.orderData || [])
                         .filter(order => order.status !== 'paid')
-                        .reduce((total, order) => total + (order.amount || 0), '');
+                        .reduce((total, order) => total + (parseFloat(order.amount) || 0), 0);
 
     const totalBooks = context.bookData?.length || 0;
     const totalFSaleBooks = context.bookData?.filter((book) => book.isFSale).length || 0;
     const totalAuthor = context.authorData?.length || 0;
     const totalAuthorIsNominated = context.authorData?.filter((author) => author.isNominated).length || 0;
     
+
     // Lấy danh sách các nhà xuất bản và loại bỏ các giá trị trùng lặp
-    const uniquePublishers = new Set(
-        (bookData || []).map(book => book.publisher ? book.publisher.trim() : '')
-        .filter(publisher => publisher.length > 0)
-    );
-    const totalPublisher = uniquePublishers.size; //count distinct
+        // Lấy danh sách nhà xuất bản và loại bỏ khoảng trắng
+    const publishersList = (context.bookData || []).map(book => book['publisher'] ? book['publisher'].trim() : '');
+    const filteredPublishers = publishersList.filter(publisher => publisher.length > 0);
+    const uniquePublishers = new Set(filteredPublishers);
+    const totalPublisher = uniquePublishers.size;
+
 
     const totalReview = reviewList?.length;
 
@@ -207,12 +210,12 @@ const Dashboard = () => {
                         <DashboardBox color={["#1da256", "#48d483"]} icon={<FaUserCircle />} grow={true} title="Tổng Khách hàng" count={totalUsers} />
                         <DashboardBox color={["#c012e2", "#eb64fe"]} icon={<IoMdCart />} grow={true} title="Tổng nhân viên" count={totalStaffs} />
                         <DashboardBox color={["#e1950e", "#f3cd29"]} icon={<FaUserCircle />} grow={true} title="Tổng lượt đánh giá" count={totalReview} />
-                       
+                        <DashboardBox color={["#2c78e5", "#60aff5"]} icon={<MdShoppingBag />} grow={true} title="Tổng số NXB" count={totalPublisher} />
 
                         <DashboardBox color={["#2c78e5", "#60aff5"]} icon={<MdShoppingBag />} grow={true} title="Tổng sản phẩm" count={totalBooks} />
                         <DashboardBox color={["#e1950e", "#f3cd29"]} icon={<GiStarsStack />} grow={true} title="Tổng đơn hàng" count={totalOrders} />
-                        <DashboardBox color={["#c012e2", "#eb64fe"]} icon={<GiStarsStack />} grow={true} title="Tổng doanh thu (Paid)" count={totalRevenue} />
-                        <DashboardBox color={["#1da256", "#48d483"]} icon={<GiStarsStack />} grow={true} title="Tổng doanh thu (cancelled)" count={totalUnpaid} />
+                        <DashboardBox color={["#c012e2", "#eb64fe"]} icon={<GiStarsStack />} grow={true} title="Tổng doanh thu (Paid)" count={totalRevenue.toLocaleString('vi-VN')} />
+                        <DashboardBox color={["#1da256", "#48d483"]} icon={<GiStarsStack />} grow={true} title="Tổng doanh thu (cxl & pen)" count={totalUnpaid.toLocaleString('vi-VN')} />
                     </div>
                 </div>
             </div>

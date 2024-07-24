@@ -18,15 +18,19 @@ const UserEdit = () => {
     const navigate = useNavigate();
     const location = useLocation();
 
-    const [isLogin, setIsLogin] = useState(false);
+    // const [isLogin, setIsLogin] = useState(false);
     const [userData, setUserData] = useState([]);
 
-    const [isShowPassword, setIsShowPassword] = useState(false);
-    const [isShowConfirmPassword, setIsShowConfirmPassword] = useState(false);
-
     const [inputIndex, setInputIndex] = useState(false);
+    const { setIsLogin, staff } = useContext(MyContext);
+    const context = useContext(MyContext);
 
+    const [file, setFile] = useState(null);
+    const [image, setImage] = useState('');
+    const [preview, setPreview] = useState('');
 
+    const [value, setValue] = useState(0);
+    
     const [isLoading, setIsLoading] = useState(false);
     const [formFields, setFormFields] = useState({
         name: "",
@@ -41,21 +45,14 @@ const UserEdit = () => {
     });
 
     const [fields, setFields] = useState({
-        staffPassword: "",
-        password: "",
+        adminPassword: "",
+        newPassword: "",
         confirmPassword: ""
     });
 
-    const [file, setFile] = useState(null);
-    const [image, setImage] = useState('');
-    const [preview, setPreview] = useState('');
-
-    const [value, setValue] = useState(0);
-    const context = useContext(MyContext);
-    
-
+   
     const breadcrumbs = [
-        { href: '#', label: 'Quản lý tài khoản', icon: <HomeIcon fontSize="small" /> },
+        { href: '/', label: 'Trang chủ', icon: <HomeIcon fontSize="small" /> },
         { href: '/userList', label: 'Tài khoản khách hàng' },
         { href: '#', label: 'Cập nhật tài khoản khách hàng' }
     ];
@@ -64,13 +61,13 @@ const UserEdit = () => {
     useEffect(() => {
         
         console.log("id: " + id );
-        window.scrollTo(0, 0); // cuộn trang về đầu (tọa độ 0,0) khi component được render
-        const token = localStorage.getItem("token"); // giá trị của token từ localStorage
-        // console.log(token);
-        if (token !== "" && token !== undefined && token !== null) { // nếu token tồn tại (đã đăng nhập)
-            setIsLogin(true); // đổi trạng thái isLogin = true
+        window.scrollTo(0, 0); 
+        const token = localStorage.getItem("token"); 
+
+        if (token !== "" && token !== undefined && token !== null) { 
+            setIsLogin(true); 
         } else {
-            navigate("/signIn"); // điều hướng đến trang đăng nhập nếu chưa đăng nhập
+            navigate("/signIn"); 
         }
         
         fetchDataFromApi(`/api/user/${id}`)
@@ -88,7 +85,7 @@ const UserEdit = () => {
             .catch((error) => {
                 console.error("Error fetching user data", error);
             });  
-    }, [navigate]);
+    }, []);
 
     // 
     useEffect(() => {
@@ -119,65 +116,69 @@ const UserEdit = () => {
     };
 
     const changeInput2 = (e) => {
-        setFields(() => (
-            {
-                ...fields,
-                [e.target.name]: e.target.value
-            }
-        ));
-        console.log('Updated fields:', fields);
+        setFields(() => ({
+            ...fields,
+            [e.target.name]: e.target.value
+        }));
     };
 
 
     const changePassword = (e) => {
         e.preventDefault();
-        console.log("fields.staffPassword: " + fields.staffPassword);
-        console.log("fields.password: " + fields.password);
+        console.log("fields.staffPassword: " + fields.adminPassword);
+        console.log("fields.password: " + fields.newPassword);
         console.log("fields.confirmPassword: " + fields.confirmPassword);
 
-        if (!fields.staffPassword || !fields.password || !fields.confirmPassword) {
+        if (!fields.adminPassword || !fields.newPassword || !fields.confirmPassword) {
             context.setAlertBox({ open: true, error: true, msg: 'Vui lòng điền đầy đủ thông tin' });
             return;
         }
 
-        if (fields.password !== fields.confirmPassword) {
+        if (fields.newPassword !== fields.confirmPassword) {
             context.setAlertBox({ open: true, error: true, msg: 'Mật khẩu và xác nhận mật khẩu không khớp' });
             return;
         }
 
-        const staffStr = localStorage.getItem("staff");
-        let staffEmail = "";
-        let staffRole = "";
-
-        if (staffStr) {
-            const staffObj = JSON.parse(staffStr);
-            staffEmail = staffObj.email;
-            staffRole = staffObj.role;
-        }
-
-        const data = {
-            email: staffEmail,
-            password: fields.staffPassword,
-            role: staffRole,
-            newPassword: fields.password
-        };
-        console.log("data: " + data.email + ", " + data.password + ", " + data.role + ", " + data.newPassword);
-
-        setIsLoading(true);
-        editData(`/api/user/changePasswordbyAdmin/${id}`, data)
-            // axios.put(`http://localhost:4000/api/user/changePasswordbyAdmin/6690aa0ef4ba890d2abda36b`,data)
-            .then((res) => {
-                setIsLoading(false);
-                context.setAlertBox({ open: true, error: false, msg: "Người dùng đã được cập nhật" });
-                setTimeout(() => { setIsLoading(false); navigate('/userList'); }, 2000);
-            })
-            .catch((error) => {
+        // xét role của staff phải là admin (role == 1)
+        if(staff.role === 1){
+            try {
+                const data = {
+                    email: staff.email,
+                    password: fields.adminPassword,
+                    newPass: fields.newPassword
+                };
+                console.log("data to change password:", data.email, ", ", data.password, ", ", data.newPass);
+            
+                setIsLoading(true);
+                editData(`/api/user/changePasswordbyAdmin/${id}`, data)
+                    .then((res) => {    
+                        // Xử lý phản hồi từ server
+                        if (res.error) {
+                            // Nếu có lỗi
+                            context.setAlertBox({ open: true, error: true, msg: res.msg });
+                        } else if (res.success) {
+                            // Nếu thành công
+                            context.setAlertBox({ open: true, error: false, msg: "Tài khoản nhân viên đã được cập nhật" });
+                            setTimeout(() => {
+                                setIsLoading(false);
+                                navigate("/");
+                                context.setAlertBox({ open: false });
+                            }, 2000);
+                        }
+                    })
+                    .catch((error) => {
+                        setIsLoading(false);
+                        console.error('Lỗi khi thay đổi mật khẩu:', error);
+                        context.setAlertBox({ open: true, error: true, msg: error.response?.data?.msg || 'Đã xảy ra lỗi khi thay đổi mật khẩu' });
+                    });
+            } 
+            catch (error) {
                 setIsLoading(false);
                 console.error('Lỗi khi thay đổi mật khẩu:', error);
                 context.setAlertBox({ open: true, error: true, msg: 'Đã xảy ra lỗi khi thay đổi mật khẩu' });
-            });
-
-
+            }
+            setIsLoading(false);
+        }
     };
 
     
@@ -321,11 +322,7 @@ const UserEdit = () => {
                                                         )}
                                                     </>
                                                 )}
-                                                {/* {preview && (
-                                                    <span className="remove" onClick={removeImg}>
-                                                        <CiCircleRemove />
-                                                    </span>
-                                                )} */}
+
                                                 {isLoading || (
                                                     <input type="file" id="file-input" onChange={handleChange} name="image" accept="image/png, image/jpeg, image/jpg, image/jfif" style={{ display: 'none' }} />
                                                 )}
@@ -362,14 +359,7 @@ const UserEdit = () => {
                                                 </div>
                                             </div>
                                         </div>
-                                        {/* <div className='row'>
-                                            <div className='col-md-6'>
-                                                <TextField label="Mật khẩu mới" variant="outlined" className='w-100' name="password" onChange={changeInput} value={formFields.password} />
-                                            </div>
-                                            <div className='col-md-6'>
-                                                <TextField label="Xác nhận mật khẩu mới" variant="outlined" className='w-100' name="confirmpassword" onChange={changeInput} value={formFields.confirmPassword} />
-                                            </div>
-                                        </div> */}
+
                                         <div className='form-group'>
                                             <Button variant="contained" className='btn bg-primary' type="submit">
                                                 {isLoading ? (
@@ -395,7 +385,7 @@ const UserEdit = () => {
                                         <div className='col-md-4 col-sm-12 mb-3'>
                                             <PasswordBox
                                                 label="Mật khẩu Admin"
-                                                name="staffPassword"
+                                                name="adminPassword"
                                                 inputIndex={0}
                                                 setInputIndex={setInputIndex}
                                                 changeInput2={changeInput2}
@@ -405,7 +395,7 @@ const UserEdit = () => {
                                         <div className='col-md-4 col-sm-12 mb-3'>
                                             <PasswordBox
                                                 label="Mật khẩu mới"
-                                                name="password"
+                                                name="newPassword"
                                                 inputIndex={1}
                                                 setInputIndex={setInputIndex}
                                                 changeInput2={changeInput2}
@@ -421,10 +411,6 @@ const UserEdit = () => {
                                                 changeInput2={changeInput2}
                                             />
                                         </div>
-
-                                        {/* <input label="Mật khẩu hiện tại" onChange={changeInput2} value={fields.staffPassword} name="staffPassword" />
-                                        <input label="Mật khẩu mới" onChange={changeInput2} value={fields.password} name="password" />
-                                        <input label="Xác nhận mật khẩu" onChange={changeInput2} value={fields.confirmPassword} name="confirmPassword" /> */}
                                     </div>
 
                                     <div className='form-group d-flex justify-content-center'>

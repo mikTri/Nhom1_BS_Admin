@@ -6,7 +6,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 
 import Breadcrumb from '../../Components/Breadcrumb';
 import BookDropdown from '../../Components/BookDropdown';
-import { fetchDataFromApi, postData } from "../../utils/api";
+import { postData } from "../../utils/api";
 
 import { MyContext } from '../../App';
 
@@ -31,7 +31,7 @@ const CartAdd = () => {
     });
 
     const breadcrumbs = [
-        { href: '/home', label: 'Trang chủ', icon: <HomeIcon fontSize="small" /> },
+        { href: '/', label: 'Trang chủ', icon: <HomeIcon fontSize="small" /> },
         { href: '/cartList', label: 'Danh sách giỏ hàng' },
         { href: '#', label: 'Thêm sản phẩm mới vào giỏ hàng' }
     ];

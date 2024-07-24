@@ -1,6 +1,6 @@
 import React from 'react';
 import { useContext, useState } from 'react';
-import { Link, NavLink, useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 
 import { MdHome } from "react-icons/md";
@@ -8,13 +8,7 @@ import Button from '@mui/material/Button';
 import { MdDashboard } from "react-icons/md";
 import { FaAngleRight } from "react-icons/fa6";
 import { FaProductHunt } from "react-icons/fa";
-import { BiSolidPurchaseTag } from "react-icons/bi";
 import { RiNewsLine } from "react-icons/ri";
-import { MdManageAccounts } from "react-icons/md";
-import { FaCartArrowDown } from "react-icons/fa6";
-import { MdMessage } from "react-icons/md";
-import { FaBell } from "react-icons/fa6";
-import { IoIosSettings } from "react-icons/io";
 import { IoMdLogOut } from "react-icons/io";
 import { FaClipboardCheck } from "react-icons/fa";
 
@@ -26,15 +20,16 @@ const Sidebar = () => {
 
     const [activeTab, setActiveTab] = useState(0);
     const [isToggleSubmenu, setIsToggleSubmenu] = useState(false);
-    const [isLogin, setIsLogin] = useState(false);
 
+    const { setIsLogin } = useContext(MyContext);
     const context = useContext(MyContext);
-
-    const isOpenSubmenu = (index) => {
-                                    setActiveTab(index);
-                                    setIsToggleSubmenu(!isToggleSubmenu)
-                                    }
     const navigate = useNavigate();
+    
+    const isOpenSubmenu = (index) => {
+        setActiveTab(index);
+        setIsToggleSubmenu(!isToggleSubmenu)
+    }
+    
 
     useEffect(() => {
         const token = localStorage.getItem("token");
@@ -49,9 +44,10 @@ const Sidebar = () => {
 
     const logout = () => {
         localStorage.clear();
+        setIsLogin(false);
 
-        context.setAlertBox({  open: true, error: false, msg: "Logout successfull" })
-        setTimeout(() => { navigate("/login"); }, 2000);
+        context.setAlertBox({  open: true, error: false, msg: "Đăng xuất thành công!" })
+        setTimeout(() => { navigate("/login");  context.setAlertBox({ open: false });}, 2000);
     }
 
     return (
@@ -61,7 +57,7 @@ const Sidebar = () => {
 
                     {/* HOME */}
                     <li>
-                        <NavLink activeclassname='is-active' to="/home">
+                        <NavLink activeclassname='is-active' to="/">
                             <Button className={`w-100 ${activeTab === 0 ? 'active' : ''}`} onClick={() => isOpenSubmenu(0)}>
                                 <span className='icon'><MdHome /></span>
                                 TRANG CHỦ
@@ -110,8 +106,8 @@ const Sidebar = () => {
                         <div className={`submenuWrapper ${activeTab === 4 && isToggleSubmenu === true ? 'colapse' : 'colapsed'}`}>
                             <ul className='submenu'>
                                 <li><NavLink activeclassname='is-active' to="/cartList">Quản lý giỏ hàng (cart list)</NavLink></li>
-                                
-                                <li><NavLink activeclassname='is-active' to="/orderList">Quản lý đơn hàng (order list)</NavLink></li>
+                                <li><NavLink activeclassname='is-active' to="/myList">Quản lý danh sách yêu thích (my list)</NavLink></li>
+                                <li><NavLink activeclassname='is-active' to="/orderList">Quản lý hóa đơn (order)</NavLink></li>
                             </ul>
                         </div>
                     </li>

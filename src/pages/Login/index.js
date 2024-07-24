@@ -6,17 +6,13 @@ import { RiLockPasswordFill } from "react-icons/ri";
 import { IoMdEye } from "react-icons/io";
 import { IoMdEyeOff } from "react-icons/io";
 import Button from '@mui/material/Button';
-import { Link } from "react-router-dom";
 
 import { postData } from '../../utils/api';
 import CircularProgress from '@mui/material/CircularProgress';
 
 // image
-// import Logo from '../../assets/images/no-user.jpg';
 import Logo from '../../assets/images/bookStoreLogo.png';
 import patern from '../../assets/images/bookStoreLogo.png';
-import googleIcon from '../../assets/images/googleImg.png';
-
 
 import { MyContext } from '../../App';
 
@@ -27,7 +23,8 @@ const Login = () => {
     const [inputIndex, setInputIndex] = useState(null);
     const [isShowPassword, setisShowPassword] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
-    const [isLogin, setIsLogin] = useState(false);
+    // const [isLogin, setIsLogin] = useState(false);
+    const { setIsLogin, setStaff, setRole } = useContext(MyContext);
     
     const navigate = useNavigate();
     const context = useContext(MyContext);
@@ -43,13 +40,13 @@ const Login = () => {
 
         const token = localStorage.getItem("token");
         if (token !== "" && token !== undefined && token !== null) {
-            setIsLogin(true);
-            navigate('/home'); 
+            // setIsLogin(true);
+            navigate('/'); 
         }
         else {
             navigate('/login'); 
         }
-    }, []);
+    }, [navigate, context]);
 
     const focusInput = (index) => { setInputIndex(index); }
 
@@ -73,7 +70,6 @@ const Login = () => {
         }
 
         setIsLoading(true);
-
         postData("/api/staff/signin", formfields).then((res) => {
             try {
                 if (res.error !== true) {
@@ -83,12 +79,21 @@ const Login = () => {
                                 staffId: res.staff?.id,
                                 role: res.staff?.role
                                 }
-                    console.log("staff info: " + staff)
+                    // console.log("****staff info: " + staff.name + ", " + staff.role);
 
                     localStorage.setItem("staff", JSON.stringify(staff));
+                    
 
-                    context.setAlertBox({ open: true, error: false, msg: "Bạn đã đăng nhập thành công!" });
-                    setTimeout(() => { setIsLoading(false); navigate('/home'); }, 2000);
+                    setIsLogin(true);
+                    setStaff(staff);
+                    setRole(staff.role);
+
+                    
+                    setTimeout(() => { 
+                        setIsLoading(false); 
+                        context.setAlertBox({ open: false, error: false, msg: "Bạn đã đăng nhập thành công!" });
+                        navigate('/'); 
+                    }, 2000);
     
                 }
                 else {
@@ -97,6 +102,7 @@ const Login = () => {
                 }
             } catch (error) {
                 console.log(error);
+                context.setAlertBox({ open: false, error: false, msg: "Lỗi đăng nhập" });
                 setIsLoading(false);
             }
         })
@@ -150,21 +156,6 @@ const Login = () => {
                                     { isLoading === true ? <CircularProgress /> : 'Đăng nhập' }
                                 </Button>
                             </div>
-                            
-                            {/* Quên mật khẩu: tạm bỏ */}
-                            {/* <div className='form-group text-center mb-0'>
-                                <Link to={'/forgot-password'} className="link">Bạn đã quên mật khẩu?</Link>
-                                <div className='d-flex align-items-center justify-content-center or mt-3 mb-3'>
-                                    <span className='line'></span>
-                                    <span className='txt'>hoặc</span>
-                                    <span className='line'></span>
-                                </div>
-
-                                <Button variant="outlined" className='w-100 btn-lg btn-big loginWithGoogle'>
-                                    <img src={googleIcon} width="25px" alt=''/> &nbsp; Đăng nhập với Google
-                                </Button>
-
-                            </div> */}
 
                         </form>
                     </div>

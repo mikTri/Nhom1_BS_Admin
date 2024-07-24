@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 import Button from '@mui/material/Button';
 import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import TrendingDownIcon from '@mui/icons-material/TrendingDown';
@@ -7,11 +5,6 @@ import TrendingDownIcon from '@mui/icons-material/TrendingDown';
 
 
 const DashboardBox = (props) => {
-    // const [anchorEl, setAnchorEl] = useState(null);
-    // const open = Boolean(anchorEl);
-
-    // const handleClick = (event) => { setAnchorEl(event.currentTarget); };
-    // const handleClose = () => { setAnchorEl(null); };
 
     return (
         <Button className="dashboardBox" 

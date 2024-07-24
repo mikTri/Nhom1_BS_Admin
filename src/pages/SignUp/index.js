@@ -11,7 +11,6 @@ import { FaUserCircle } from "react-icons/fa";
 import { IoShieldCheckmarkSharp } from "react-icons/io5";
 import { FaPhoneAlt } from "react-icons/fa";
 import { FaLocationDot } from "react-icons/fa6";
-import { IoMdHome } from "react-icons/io";
 
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
@@ -21,8 +20,6 @@ import CircularProgress from '@mui/material/CircularProgress';
 // images
 import Logo from '../../assets/images/googleImg.png';
 import patern from '../../assets/images/googleImg.png';
-import googleIcon from '../../assets/images/googleImg.png';
-
 
 // api
 import { postData } from '../../utils/api';
@@ -50,9 +47,9 @@ const SignUp = () => {
     const context = useContext(MyContext);
 
     useEffect(() => {
-                    context.setisHideSidebarAndHeader(true);
-                    window.scrollTo(0, 0);
-                    }, []);
+        context.setisHideSidebarAndHeader(true);
+        window.scrollTo(0, 0);
+    }, []);
 
     const focusInput = (index) => { setInputIndex(index); }
 

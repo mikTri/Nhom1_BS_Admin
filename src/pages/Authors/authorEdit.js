@@ -4,12 +4,8 @@ import { useNavigate, useParams} from 'react-router-dom';
 import HomeIcon from '@mui/icons-material/Home';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
-import Rating from '@mui/material/Rating';
 import Button from '@mui/material/Button';
 import CircularProgress from '@mui/material/CircularProgress';
-
-import { LazyLoadImage } from 'react-lazy-load-image-component';
-import 'react-lazy-load-image-component/src/effects/blur.css';
 
 import { editData, fetchDataFromApi, uploadImage } from '../../utils/api';
 import Breadcrumb from '../../Components/Breadcrumb';
@@ -34,7 +30,7 @@ const AuthorEdit = () => {
     });
 
     const breadcrumbs = [
-        { href: '/home', label: 'Trang chủ', icon: <HomeIcon fontSize="small" /> },
+        { href: '/', label: 'Trang chủ', icon: <HomeIcon fontSize="small" /> },
         { href: '/authorList', label: 'Danh sách tác giả' },
         { href: '#', label: 'Cập nhật tác giả' }
     ];

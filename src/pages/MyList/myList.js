@@ -1,7 +1,6 @@
 import { useContext, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import { MdShoppingBag, MdDelete } from "react-icons/md";
-import { FaPlus, FaPencilAlt } from "react-icons/fa";
+
 import Button from '@mui/material/Button';
 import HomeIcon from '@mui/icons-material/Home';
 import TextField from '@mui/material/TextField';
@@ -11,7 +10,7 @@ import Rating from '@mui/material/Rating';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import 'react-lazy-load-image-component/src/effects/blur.css';
 import DashboardBox from '../../Components/Dashboard';
-import { deleteData, fetchDataFromApi } from "../../utils/api";
+import { deleteData } from "../../utils/api";
 import Breadcrumb from '../../Components/Breadcrumb';
 
 import { MyContext } from "../../App";

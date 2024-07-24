@@ -6,7 +6,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Button from '@mui/material/Button';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import Pagination from '@mui/material/Pagination';
+// import Pagination from '@mui/material/Pagination';
 import Rating from '@mui/material/Rating';
 import HomeIcon from '@mui/icons-material/Home';
 import TextField from '@mui/material/TextField';
@@ -17,6 +17,8 @@ import { deleteData, fetchDataFromApi } from "../../utils/api";
 import Breadcrumb from '../../Components/Breadcrumb';
 import UploadCSV from './uploadCSV';
 import { MyContext } from "../../App";
+
+
 
 const BookList = () => {
     const context = useContext(MyContext);
@@ -35,7 +37,7 @@ const BookList = () => {
 
 
     const breadcrumbs = [
-        { href: '/home', label: 'Trang chủ', icon: <HomeIcon fontSize="small" /> },
+        { href: '/', label: 'Trang chủ', icon: <HomeIcon fontSize="small" /> },
         { href: '/bookList', label: 'Danh sách sản phẩm' }
     ];
 
@@ -122,15 +124,15 @@ const BookList = () => {
         }
     };
 
-    const handleChange = (event, value) => {
-        context.setProgress(40);
-        setPage(value);
-        fetchDataFromApi(`/api/books?page=${value}&perPage=10`).then((res) => {
-            setBookList(res);
-            context.setProgress(100);
-            window.scrollTo({ top: 200, behavior: 'smooth' });
-        });
-    };
+    // const handleChange = (event, value) => {
+    //     context.setProgress(40);
+    //     setPage(value);
+    //     fetchDataFromApi(`/api/books?page=${value}&perPage=10`).then((res) => {
+    //         setBookList(res);
+    //         context.setProgress(100);
+    //         window.scrollTo({ top: 200, behavior: 'smooth' });
+    //     });
+    // };
 
 
     const handleChangeCategory = (event) => {
@@ -233,7 +235,7 @@ const BookList = () => {
 
 
                         <div className="col-md-3">
-                            <h4>Tìm Tên sách</h4>
+                            <h4>TÌM TÊN SÁCH</h4>
                             <FormControl size="small" className="w-100">
                                 <TextField
                                     placeholder="Nhập tên sách để tìm kiếm..."
@@ -273,8 +275,8 @@ const BookList = () => {
                                     <th>SỐ TRANG</th>
                                     <th>GIÁ GỐC</th>
                                     <th>% GIẢM GIÁ</th>
-                                    <th>GIÁ MỚI</th>
-                                    <th>NXB</th>
+                                    <th>VND GIẢM GIÁ</th>
+                                    <th style={{ width: '10px' }}>NXB</th>
                                     <th>ĐÃ BÁN</th>
                                     <th>FLASHSALE</th>
                                 </tr>
@@ -315,7 +317,7 @@ const BookList = () => {
                                         <td>{item.basePrice}</td>
                                         <td>{item.discountPercent}</td>
                                         <td>{item.discountPrice}</td>
-                                        <td>{item.publisher}</td>
+                                        <td className="nxb-column">{item.publisher}</td>
                                         <td>{item.salesNum}</td>
                                         <td>{item.isFSale ? 'Yes' : 'No'}</td>
                                     </tr>
@@ -329,7 +331,7 @@ const BookList = () => {
                             </tbody>
                         </table>
                     </div>
-                    
+
                     {/* Pagination */}
                     {/* <div className="d-flex justify-content-center">
                         <Pagination
@@ -343,7 +345,6 @@ const BookList = () => {
                             showLastButton
                         />
                     </div> */}
-                    
                 </div>
             </div>
         </>

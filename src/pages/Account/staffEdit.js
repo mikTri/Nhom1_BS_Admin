@@ -12,6 +12,7 @@ import Breadcrumb from '../../Components/Breadcrumb';
 import PasswordBox from '../../Components/PasswordBox';
 import { fetchDataFromApi, editData, uploadImage } from '../../utils/api';
 import { MyContext } from '../../App';
+
 import DropdownBox from '../../Components/DropdownBox';
 
 
@@ -20,11 +21,8 @@ const StaffEdit = () => {
     const navigate = useNavigate();
     const location = useLocation();
 
-    const [isLogin, setIsLogin] = useState(false);
+    // const [isLogin, setIsLogin] = useState(false);
     const [userData, setUserData] = useState([]);
-
-    const [isShowPassword, setIsShowPassword] = useState(false);
-    const [isShowConfirmPassword, setIsShowConfirmPassword] = useState(false);
 
     const [inputIndex, setInputIndex] = useState(false);
 
@@ -34,7 +32,6 @@ const StaffEdit = () => {
         { id: 2, name: 'Supervisor' },
         { id: 3, name: 'Staff' }
       ];
-
 
     const [isLoading, setIsLoading] = useState(false);
     const [formFields, setFormFields] = useState({
@@ -61,10 +58,11 @@ const StaffEdit = () => {
 
     const [value, setValue] = useState(0);
     const context = useContext(MyContext);
+    const { isLogin, setIsLogin, staff, role } = useContext(MyContext);
     
 
     const breadcrumbs = [
-        { href: '/home', label: 'Trang chủ', icon: <HomeIcon fontSize="small" /> },
+        { href: '/', label: 'Trang chủ', icon: <HomeIcon fontSize="small" /> },
         { href: '/staffList', label: 'Tài khoản nhân viên' },
         { href: '#', label: 'Cập nhật tài khoản nhân viên' }
     ];
@@ -72,15 +70,20 @@ const StaffEdit = () => {
 
     let { id } = useParams();   //gọi client id được chọn từ userList
     useEffect(() => {
+
+        window.scrollTo(0, 0); 
         
-        console.log("id: " + id );
-        window.scrollTo(0, 0); // cuộn trang về đầu (tọa độ 0,0) khi component được render
-        const token = localStorage.getItem("token"); // giá trị của token từ localStorage
-        // console.log(token);
-        if (token !== "" && token !== undefined && token !== null) { // nếu token tồn tại (đã đăng nhập)
-            setIsLogin(true); // đổi trạng thái isLogin = true
+        // if (isLogin === false) {
+        //     navigate("/login");
+        //     return;
+        // } 
+
+        const token = localStorage.getItem("token");
+        if (token !== "" && token !== undefined && token !== null) { 
+            setIsLogin(true); 
         } else {
-            navigate("/signIn"); // điều hướng đến trang đăng nhập nếu chưa đăng nhập
+            navigate("/login"); 
+            return;
         }
         
         fetchDataFromApi(`/api/staff/${id}`)
@@ -99,8 +102,9 @@ const StaffEdit = () => {
             .catch((error) => {
                 console.error("Error fetching staff data", error);
             });    
+
         console.log("role: " + formFields.role);
-    }, [navigate]);
+    }, []);
 
     // 
     useEffect(() => {
@@ -130,109 +134,115 @@ const StaffEdit = () => {
     };
 
     const changeInput2 = (e) => {
-        setFields(() => (
-            {
-                ...fields,
-                [e.target.name]: e.target.value
-            }
-        ));
-        console.log('Updated fields:', fields);
+        setFields(() => ({
+            ...fields,
+            [e.target.name]: e.target.value
+        }));
     }
 
 
     const changePassword = (e) => {
         e.preventDefault();
-        // console.log("fields.adminPassword: " + fields.adminPassword);
-        // console.log("fields.newPassword: " + fields.newPassword);
-        // console.log("fields.confirmPassword: " + fields.confirmPassword);
-
+    
+        // Kiểm tra thông tin đầu vào
         if (!fields.adminPassword || !fields.newPassword || !fields.confirmPassword) {
             context.setAlertBox({ open: true, error: true, msg: 'Vui lòng điền đầy đủ thông tin' });
             return;
         }
-
+    
         if (fields.newPassword !== fields.confirmPassword) {
             context.setAlertBox({ open: true, error: true, msg: 'Mật khẩu và xác nhận mật khẩu không khớp' });
             return;
         }
-
-        const staffStr = localStorage.getItem("staff");
-        let staffEmail = "";
-        let staffRole = "";
-
-        if (staffStr) {
-            const staffObj = JSON.parse(staffStr);
-            staffEmail = staffObj.email;
-            staffRole = staffObj.role;
-        }
-
-        try {
-            const data = {
-                email: staffEmail,
-                password: fields.adminPassword,
-                newPass: fields.newPassword
-            };
-            // console.log("data: " + data.email + ", " + data.password + ", " + data.role + ", " + data.newPassword);
     
-            setIsLoading(true);
-            editData(`/api/staff/changePassword/${id}`, data)
-                .then((res) => {
-                    // setTimeout(() => { setIsLoading(false); window.location.href = "/staffList"; }, 2000);
-                    setTimeout(() => {
-                        context.setAlertBox({ open: true, error: false, msg: "Tài khoản nhân viên đã được cập nhật" }); 
-                        navigate('/home'); 
-                        setIsLoading(false);
-                    }, 2000 );
-                    
-                })
-                .catch((error) => {
+
+        // Thực hiện gọi API để thay đổi mật khẩu
+            // case 1: nếu role != 1 (không là admin), chỉ đổi được của chính mình
+            if(staff.role !== 1){
+
+                if (fields.adminPassword === fields.newPassword && fields.newPassword === fields.confirmPassword) {
+                    context.setAlertBox({ open: true, error: true, msg: 'Vui lòng đặt mật khẩu mới' });
+                    return;
+                }
+
+                try {
+                    const data = {
+                        email: staff.email,
+                        password: fields.adminPassword,
+                        newPass: fields.newPassword
+                    };
+                    console.log("data to change password:", data);
+            
+                    setIsLoading(true);
+                    editData(`/api/staff/changePassword/${id}`, data)
+                        .then((res) => {    
+                            // Xử lý phản hồi từ server
+                            if (res.error) {
+                                // Nếu có lỗi
+                                context.setAlertBox({ open: true, error: true, msg: res.msg });
+                            } else if (res.success) {
+                                // Nếu thành công
+                                context.setAlertBox({ open: true, error: false, msg: "Tài khoản nhân viên đã được cập nhật" });
+                                setTimeout(() => {
+                                    setIsLoading(false);
+                                    navigate("/");
+                                    context.setAlertBox({ open: false });
+                                }, 2000);
+                            }
+                        })
+                        .catch((error) => {
+                            setIsLoading(false);
+                            console.error('Lỗi khi thay đổi mật khẩu:', error);
+                            context.setAlertBox({ open: true, error: true, msg: error.response?.data?.msg || 'Đã xảy ra lỗi khi thay đổi mật khẩu' });
+                        });
+                } catch (error) {
                     setIsLoading(false);
                     console.error('Lỗi khi thay đổi mật khẩu:', error);
                     context.setAlertBox({ open: true, error: true, msg: 'Đã xảy ra lỗi khi thay đổi mật khẩu' });
-                });
-        } catch (error) {
-            setIsLoading(false);
-            console.error('Lỗi khi thay đổi mật khẩu:', error);
-            context.setAlertBox({ open: true, error: true, msg: 'Đã xảy ra lỗi khi thay đổi mật khẩu' });
-           
-        }
-
-        // // nếu role là admin hoặc là tài khoản chính chủ của staff thì được thay đổi
-        // if(staffRole === 1 || (staffRole !== 1 && staffEmail === formFields.email)){
-        //     const data = {
-        //         email: staffEmail,
-        //         password: fields.adminPassword,
-        //         role: staffRole,
-        //         newPassword: fields.newPassword
-        //     };
-        //     // console.log("data: " + data.email + ", " + data.password + ", " + data.role + ", " + data.newPassword);
-    
-        //     setIsLoading(true);
-        //     editData(`/api/staff/changePassword/${id}`, data)
-        //         .then((res) => {
-        //             // setTimeout(() => { setIsLoading(false); window.location.href = "/staffList"; }, 2000);
-        //             setTimeout(() => {
-        //                 context.setAlertBox({ open: true, error: false, msg: "Tài khoản nhân viên đã được cập nhật" }); 
-        //                 // window.location.href = "/home";
-        //                 setIsLoading(false);
-        //             }, 2000 );
+                }
+            }
+            // case 2: nếu role == 1 (là admin), toàn quyền
+            else{
+                try {
+                    const data = {
+                        email: staff.email,
+                        password: fields.adminPassword,
+                        newPass: fields.newPassword
+                    };
                     
-        //         })
-        //         .catch((error) => {
-        //             setIsLoading(false);
-        //             console.error('Lỗi khi thay đổi mật khẩu:', error);
-        //             context.setAlertBox({ open: true, error: true, msg: 'Đã xảy ra lỗi khi thay đổi mật khẩu' });
-        //         });
-        // }
-        // else{
-        //     setTimeout(() => {
-        //         context.setAlertBox({ open: true, error: true, msg: 'Tài khoản của bạn không thực hiện được chức năng này' });
-        //         } , 2000
-        //     )
-        // }
-
+                    console.log("data to change password:", data.email, ", ", data.password, ", ", data.newPass);
+            
+                    setIsLoading(true);
+                    editData(`/api/staff/changePasswordbyAdmin/${id}`, data)
+                        .then((res) => {    
+                            // Xử lý phản hồi từ server
+                            if (res.error) {
+                                // Nếu có lỗi
+                                context.setAlertBox({ open: true, error: true, msg: res.msg });
+                            } else if (res.success) {
+                                // Nếu thành công
+                                context.setAlertBox({ open: true, error: false, msg: "Tài khoản nhân viên đã được cập nhật" });
+                                setTimeout(() => {
+                                    setIsLoading(false);
+                                    navigate("/");
+                                    context.setAlertBox({ open: false });
+                                }, 2000);
+                            }
+                        })
+                        .catch((error) => {
+                            setIsLoading(false);
+                            console.error('Lỗi khi thay đổi mật khẩu:', error);
+                            context.setAlertBox({ open: true, error: true, msg: error.response?.data?.msg || 'Đã xảy ra lỗi khi thay đổi mật khẩu' });
+                        });
+                } catch (error) {
+                    setIsLoading(false);
+                    console.error('Lỗi khi thay đổi mật khẩu:', error);
+                    context.setAlertBox({ open: true, error: true, msg: 'Đã xảy ra lỗi khi thay đổi mật khẩu' });
+                }
+            }
+        setIsLoading(false);
     };
-
+    
     
     const previewFiles = (file) => {
         const reader = new FileReader();
@@ -280,48 +290,48 @@ const StaffEdit = () => {
             // Upload image first (ok)
             let imageUrl = '';
             if (file) {
-                // const result = await axios.post("http://localhost:4000/api/uploadImage", { image });
                 const result = await uploadImage('/api/uploadStaffImage', { image });
                 console.log("result: " + result);
-                imageUrl = result.secure_url; // Đảm bảo rằng đây là URL của ảnh
+                imageUrl = result.secure_url; 
                 console.log("imageUrl: " + imageUrl);
-            }
-            
-            // 
-            const staffStr = localStorage.getItem("staff");
-            let staffRole = "";
-            let staffEmail = "";
-            if(staffStr){
-                console.log("staffStr: " + staffStr );
-                const staffObj = JSON.parse(staffStr)
-                staffRole = staffObj.role;
-                staffEmail = staffObj.email;
-                console.log("staffRole: " + staffRole );
-            }
-            else{
-                context.setAlertBox({ open: true, error: false, msg: "Tài khoản của bạn không thể thực hiện chức năng này" });
-                // setTimeout(() => {setIsLoading(false); window.location.href = "/staffList"; }, 2000);
             }
             
             // Prepare form data with image URLs
             const formDataWithImages = { ...formFields, images: imageUrl ? [imageUrl] : formFields.images };
             
             console.log("formFields: " + formDataWithImages.name + ", " + formDataWithImages.email + ", " + formDataWithImages.phone + ", " + formDataWithImages.address + ", " + formDataWithImages.role + ", " + formDataWithImages.images );
-            console.log("staffEmail: " + staffEmail + ", selected email: " + formFields.email);
+            console.log("staffEmail: " + staff.email + ", selected email: " + formFields.email);
 
-            if ((staffRole === 1 || staffEmail === formFields.email) &&   //nếu người thực hiện là Admin (role=1) hoặc thao tác trên acc của chính họ và các thông tin đều hợp lệ
+
+            if ((role === 1 || staff.email === formFields.email) &&   //nếu người thực hiện là Admin (role=1) hoặc thao tác trên acc của chính họ và các thông tin đều hợp lệ
                 formFields.name !== "" && formFields.email !== "" && formFields.phone !== "" && formFields.address !== ""
             ) 
             {   
-                setIsLoading(true);                      //Đặt trạng thái isLoading thành true để hiển thị trạng thái đang tải                                       //Lấy thông tin user từ localStorage và gửi yêu cầu cập nhật dữ liệu user qua API bằng hàm editData
+                setIsLoading(true);                      
                 editData(`/api/staff/${id}`, formDataWithImages)
                     .then((res) => {
+                        // update localStorage (in case of self change):
+                        const updatedstaff = {
+                            ...staff,
+                            name: formFields.name,
+                            role: formFields.role
+                        }
+                        localStorage.setItem("staff", JSON.stringify(updatedstaff));
+
+
                         setTimeout(() => {
                             context.setAlertBox({ open: false, error: false, msg: "Tài khoản nhân viên đã được cập nhật" }); 
                             setIsLoading(false);
                         }, 2000 );
                     });
-                setTimeout(() => {setIsLoading(false); navigate('/staffList'); }, 2000);
+                    
+                    if(role === 1){
+                        setTimeout(() => {setIsLoading(false); navigate('/staffList'); }, 2000);
+                    }
+                    else {
+                        setTimeout(() => {setIsLoading(false); navigate('/'); }, 2000);
+                    }
+                
             }
             else {
                 setIsLoading(false);
@@ -353,7 +363,7 @@ const StaffEdit = () => {
         <section className='content section myAccountPage w-100'>
             <div className='right-content w-100'>
                 <div className="card shadow border-0 w-100 p-3">
-                    <h5 className="mb-0">Cập nhật tài khoản nhân viên - ID: {id} ({formFields.name}) </h5>
+                    <h5 className="mb-0">Cập nhật tài khoản nhân viên - ID: {id} ({staff.name}) </h5>
                     <div className='p-2'><Breadcrumb breadcrumbs={breadcrumbs} /></div>
                 </div>
                 <Box sx={{ borderBottom: 1, borderColor: 'divider' }} >

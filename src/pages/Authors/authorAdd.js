@@ -8,7 +8,6 @@ import CircularProgress from '@mui/material/CircularProgress';
 import { postData } from '../../utils/api';
 import Breadcrumb from '../../Components/Breadcrumb';
 import { MyContext } from '../../App';
-import { fetchDataFromApi } from "../../utils/api";
 
 
 
@@ -26,7 +25,7 @@ const AuthorAdd = () => {
     });
 
     const breadcrumbs = [
-        { href: '/home', label: 'Trang chủ', icon: <HomeIcon fontSize="small" /> },
+        { href: '/', label: 'Trang chủ', icon: <HomeIcon fontSize="small" /> },
         { href: '/authorList', label: 'Danh sách tác giả' },
         { href: '#', label: 'Thêm tác giả mới' }
     ];

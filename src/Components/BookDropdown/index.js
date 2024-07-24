@@ -20,15 +20,7 @@ const BookDropdown = ({ onSelectBook }) => {
     const [selectedTab, setSelectedTab] = useState(null);
     const [filteredBooks, setFilteredBooks] = useState([]);
     const context = useContext(MyContext); // để chia sẻ dữ liệu toàn cầu trong toàn bộ ứng dụng React
-    const { fetchBookList, bookData } = useContext(MyContext);
-
-    // useEffect(() => {
-    //     setFilteredBooks(context.bookData.books);
-    // }, []);
-
-    // useEffect(() => {
-    //     fetchBookList();
-    // }, []);
+    const { fetchBookList } = useContext(MyContext);
 
     useEffect(() => {
         const loadBooks = async () => {
