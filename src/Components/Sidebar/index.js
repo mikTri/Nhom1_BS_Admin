@@ -128,14 +128,14 @@ const Sidebar = () => {
                     </li> */}
 
                     {/* QUẢN LÝ REVIEW */}
-                    <li>
+                    {/*  <li>
                         <NavLink activeclassname='is-active' to="/reviewList">
                             <Button className={`w-100 ${activeTab === 6 && isToggleSubmenu === true ? 'active' : ''}`} onClick={() => isOpenSubmenu(6)}>
                                 <span className='icon'> <FaClipboardCheck fontSize="small" /></span>
                                 QUẢN LÝ Ý KIẾN KHÁCH HÀNG
                             </Button>
                         </NavLink>
-                    </li>
+                    </li> */}
 
                     {/* QUẢN LÝ EMAIL*/}
                     <li>
