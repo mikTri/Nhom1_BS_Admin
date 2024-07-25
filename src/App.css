@@ -539,7 +539,12 @@ form .btn-blue{position: relative; z-index: 100;}
     height: 25px !important;
   }
 
-
+/* Ẩn default Eye icon Cho tất cả các trình duyệt */
+input[type="password"] {-webkit-text-security: disc;}
+/* Cho trình duyệt Firefox */
+input[type="password"]::-ms-reveal {display: none;}
+/* Cho trình duyệt Internet Explorer */
+input[type="password"]::-ms-clear {display: none;}
 
 
 /* home page */
