@@ -20,6 +20,10 @@ const StaffEdit = () => {
     
     const navigate = useNavigate();
     const location = useLocation();
+    
+    const context = useContext(MyContext);
+    const { isLogin, setIsLogin, staff, role, setRole } = useContext(MyContext);
+
 
     // const [isLogin, setIsLogin] = useState(false);
     const [userData, setUserData] = useState([]);
@@ -57,8 +61,7 @@ const StaffEdit = () => {
     const [preview, setPreview] = useState('');
 
     const [value, setValue] = useState(0);
-    const context = useContext(MyContext);
-    const { isLogin, setIsLogin, staff, role } = useContext(MyContext);
+    
     
 
     const breadcrumbs = [
@@ -70,13 +73,7 @@ const StaffEdit = () => {
 
     let { id } = useParams();   //gọi client id được chọn từ userList
     useEffect(() => {
-
         window.scrollTo(0, 0); 
-        
-        // if (isLogin === false) {
-        //     navigate("/login");
-        //     return;
-        // } 
 
         const token = localStorage.getItem("token");
         if (token !== "" && token !== undefined && token !== null) { 
@@ -114,6 +111,7 @@ const StaffEdit = () => {
             setValue(0);
         }
     }, [location.pathname]);
+
 
     const handleTabChange = (event, newValue) => {
         setValue(newValue);
@@ -252,6 +250,7 @@ const StaffEdit = () => {
         };
     };
 
+
     const handleChange = (e) => {
         const { name, value, type, files } = e.target;
         if (type === 'file') {
@@ -269,11 +268,24 @@ const StaffEdit = () => {
 
     const handleRoleChange = (e) => {
         const { value } = e.target;
-        setSelectedRole(value);
-        setFormFields(prevFields => ({
-            ...prevFields,
-            role: value
-        }));
+        console.log("formFields.role 1: " + formFields.role);
+        if (role !== 1 && formFields.role !== role) {
+            setFormFields(prevFields => ({
+                ...prevFields
+            }));
+            
+        }
+        else{
+            setSelectedRole(value);
+            setFormFields(prevFields => ({
+                ...prevFields,
+                role: value
+            }));
+        }
+
+        formFields.role = role;
+        console.log("formFields.role 2: " + formFields.role);
+        
     };
 
     //ok
@@ -282,6 +294,14 @@ const StaffEdit = () => {
 
         if (!formFields.name || !formFields.phone || !formFields.address) {
             context.setAlertBox({ open: true, error: true, msg: "Vui lòng điền đầy đủ các trường bắt buộc." });
+            return;
+        }
+        console.log("role: " + role);
+        console.log("formFields.role 3: " + formFields.role);
+        if (role !== 1 && formFields.role !== role) {
+            context.setAlertBox({ open: true, error: true, msg: "Bạn không thể thay đổi phân quyền của chính mình." });
+            formFields.role = role;
+            console.log("formFields.role 4: " + formFields.role);
             return;
         }
     
@@ -305,20 +325,21 @@ const StaffEdit = () => {
 
             if ((role === 1 || staff.email === formFields.email) &&   //nếu người thực hiện là Admin (role=1) hoặc thao tác trên acc của chính họ và các thông tin đều hợp lệ
                 formFields.name !== "" && formFields.email !== "" && formFields.phone !== "" && formFields.address !== ""
-            ) 
-            {   
+            ){   
                 setIsLoading(true);                      
                 editData(`/api/staff/${id}`, formDataWithImages)
                     .then((res) => {
                         // update localStorage (in case of self change):
-                        const updatedstaff = {
-                            ...staff,
-                            name: formFields.name,
-                            role: formFields.role
+                        if(id === staff.staffId){
+                            const updatedstaff = {
+                                ...staff,
+                                name: formFields.name,
+                                role: formFields.role
+                            }
+                            localStorage.setItem("staff", JSON.stringify(updatedstaff));
+                            // setRole(formFields.role);
                         }
-                        localStorage.setItem("staff", JSON.stringify(updatedstaff));
-
-
+                        
                         setTimeout(() => {
                             context.setAlertBox({ open: false, error: false, msg: "Tài khoản nhân viên đã được cập nhật" }); 
                             setIsLoading(false);
@@ -443,7 +464,7 @@ const StaffEdit = () => {
                                                 {/* handleChange, roles, value */}
                                                 {/* <DropdownBox handleChange={handleRoleChange} roles={roleList} value={formFields.role}/>
                                                 <p>Phân quyền đã chọn: {formFields.role}</p> */}
-                                                {context.staff?.role === 1 ? 
+                                                {role === 1 ? 
                                                 (
                                                     <>
                                                         <DropdownBox handleChange={handleRoleChange} roles={roleList} value={formFields.role}/>
@@ -452,7 +473,7 @@ const StaffEdit = () => {
                                                 ) : 
                                                 (
                                                     <>
-                                                        <DropdownBox handleChange={handleRoleChange} roles={roleList} value={context.staff?.role || 3} disabled/>
+                                                        <DropdownBox handleChange={handleRoleChange} roles={roleList} value={role || 3} disabled/>
                                                         <p>Bạn không có quyền thay đổi phân quyền cho nhân viên này!</p>
                                                     </>
                                                 )}
