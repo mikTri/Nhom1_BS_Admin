@@ -132,7 +132,7 @@ const MyList = () => {
 
                     {/* search*/}
                     <div className="row cardFilters mt-3">
-                        <div className="col-md-3">
+                        {/*<div className="col-md-3">
                             <h4>Tìm mã myList</h4>
                             <FormControl size="small" className="w-100">
                                 <TextField 
@@ -144,7 +144,7 @@ const MyList = () => {
                                     onChange={handleSearchMyListId}
                                 />
                             </FormControl>
-                        </div>
+                        </div> */}
 
                         <div className="col-md-3">
                             <h4>Tìm mã khách hàng</h4>
@@ -168,13 +168,14 @@ const MyList = () => {
                             <thead className="thead-dark">
                                 <tr>
                                     <th>Thao tác</th>
-                                    <th>MÃ MYLIST</th>
+                                    <th>MÃ KHÁCH HÀNG</th>
+                                    {/*<th>MÃ MYLIST</th>*/}
                                     <th>TRANG BÌA</th>
                                     <th>MÃ SÁCH</th>
                                     <th>TÊN SÁCH</th>
                                     <th>ĐÁNH GIÁ</th>
                                     <th>GIÁ BÁN</th>
-                                    <th>MÃ KHÁCH HÀNG</th>
+                                    
                                 </tr>
                             </thead>
                             <tbody>
@@ -185,7 +186,8 @@ const MyList = () => {
                                                 <Button className="error" color="error" onClick={() => deleteItem(item._id)}><MdDelete /></Button>
                                             </div>
                                         </td>
-                                        <td>{item._id}</td>
+                                        <td>{item.userId}</td>
+                                        {/*<td>{item._id}</td>*/}
                                         <td>
                                             <div className="d-flex align-items-center productBox">
                                                 <div className="imgWrapper">
@@ -205,7 +207,7 @@ const MyList = () => {
                                         <td><Rating name="read-only" defaultValue={item.rating ?? 0} precision={0.5} size="small" readOnly /></td>
                                         {/* <td>{item.rating}</td> */}
                                         <td>{item.price}</td>
-                                        <td>{item.userId}</td>
+                                        
                                     </tr>
                                 ))}
                             </tbody>

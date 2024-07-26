@@ -15,7 +15,7 @@ import Logout from '@mui/icons-material/Logout';
 
 
 // images
-import logo from '../../assets/images/no-user.jpg';
+import logo from '../../assets/images/bookStoreLogo.png';
 import { MyContext } from '../../App';
 
 

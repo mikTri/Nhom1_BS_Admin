@@ -146,143 +146,143 @@ const StaffAdd = () => {
     
 
     return (
-        <div className="right-content w-100">
-            <div className="card shadow border-0 w-100 p-3">
-                <h5 className="mb-0">Thêm tài khoản nhân viên mới</h5>
-                <div className='p-2'><Breadcrumb breadcrumbs={breadcrumbs} /></div>
-            </div>
-
-            <form className='form ml-10 mr-10' onSubmit={handleSubmit}>
-                <div className='row my-4'>
-                    <div className='col-md-8 card shadow border-0 p-4 px-4'>
-                        <div className='card p-4 mt-0'>
-
-                            {/* staff info */}
-                            <div className='row'>
-                                <div className='col'>
-                                    <div className='form-group'>
-                                        <h6>TÊN*</h6>
-                                        <input type='text' className='form-control' name="name" value={formFields.name} onChange={handleChange} />
-                                    </div>
-                                </div>
-                                <div className='col'>
-                                    <div className='form-group'>
-                                        <h6>SĐT*</h6>
-                                        <input type='text' name="phone" value={formFields.phone} onChange={handleChange} />
-                                    </div>
-                                </div>
-                            </div>
-                            <div className='row'>
-                                <div className='col'>
-                                    <div className='form-group'>
-                                        <h6>Email*</h6>
-                                        <input type='text' name="email" value={formFields.email} onChange={handleChange} />
-                                    </div>
-                                </div>
-                                <div className='col'>
-                                    <div className='form-group'>
-                                        <h6>Địa chỉ*</h6>
-                                        <input type='text' name="address" value={formFields.address} onChange={handleChange} />
-                                    </div>
-                                </div>
-                            </div>  
-                            
-                            {/* dropBox: staff role */}
-                            <div className='row'>
-                                <div className='col'>
-                                    <div className='form-group'>
-                                        <h6>Thuộc nhóm phân quyền*</h6>
-                                        <DropdownBox handleChange={handleRoleChange} roles={roleList} value={formFields.role}/>
-                                        {/* <DropdownBox roles={roleList} handleChange={handleRoleChange} value={""}/> */}
-                                        <p>Selected Role: {selectedRole}</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            {/* password */}
-                            <div className='row'>
-                                <div className='col'>
-                                    <div className='form-group'>
-                                        <h6>Mật khẩu*</h6>
-                                        <input type={isShowPassword ? 'text' : 'password'} className='form-control' name="password" value={formFields.password} onChange={handleChange} autoComplete="off" />
-                                        {formFields.password && (
-                                            <span className='toggleShowPassword' onClick={() => handleTogglePassword('password')}>
-                                                {isShowPassword ? <IoMdEyeOff /> : <IoMdEye />}
-                                            </span>
-                                        )}
-                                    </div>
-                                </div>
-                                <div className='col'>
-                                    <div className='form-group'>
-                                        <h6>Xác nhận mật khẩu*</h6>
-                                        <input type={isShowConfirmPassword ? 'text' : 'password'} className='form-control' name="confirmPassword" value={formFields.confirmPassword} onChange={handleChange} autoComplete="off" />
-                                        {formFields.confirmPassword && (
-                                            <span className='toggleShowPassword' onClick={() => handleTogglePassword('confirmPassword')}>
-                                                {isShowConfirmPassword ? <IoMdEyeOff /> : <IoMdEye />}
-                                            </span>
-                                        )}
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-
-                    <div className='col-md-4 img-container card shadow border-0 p-3 px-4 py-4'>
-                        <div className='imgUploadBox d-flex align-items-center'>
-                            {preview ? 
-                            (
-                                <div className='uploadBox'>
-                                    <span className="remove" onClick={removeImg}>
-                                        <CiCircleRemove />
-                                    </span>
-                                    <div className='box'>
-                                        <LazyLoadImage alt={"preview"} effect="blur" className="w-100" src={preview} />
-                                    </div>
-                                </div>
-                            ) : 
-                            (
-                                <div className='uploadBox'>
-                                    {isLoading ? 
-                                    (
-                                        <div className="progressBar text-center d-flex align-items-center justify-content-center flex-column">
-                                            <CircularProgress />
-                                            <span>Đang tải...</span>
-                                        </div>
-                                    ) : 
-                                    (
-                                        <>
-                                            {/* <input type="file" onChange={handleChange} name="image" required accept="image/png, image/jpeg, image/jpg, image/jfif" /> */}
-                                            <input
-                                                type="file"
-                                                id="image"
-                                                className='imgUploadBox'
-                                                name="images"
-                                                accept='image/*'
-                                                onChange={handleChange}
-                                            />
-                                            <div className='info'>
-                                                <h5>Tải ảnh lên</h5>
-                                            </div>
-                                        </>
-                                    )}
-                                </div>
-                            )}
-                        </div>
-
-                        <div className='imgUploadBtn card shadow border-0 w-100'>
-                            <div className='imgBtn d-flex justify-content-center'>
-                                <Button variant="contained" type="submit" className="btn btn-primary mt-3" disabled={isLoading}>Lưu</Button>
-                            </div>
-                        </div>
-                    </div>
+        <section className='content section myAccountPage w-100'>
+            <div className="right-content w-100">
+                <div className="card shadow border-0 w-100 p-3">
+                    <h5 className="mb-0">Thêm tài khoản nhân viên mới</h5>
+                    <div className='p-2'><Breadcrumb breadcrumbs={breadcrumbs} /></div>
                 </div>
 
-                
-            </form>
+                <form className='form ml-10 mr-10' onSubmit={handleSubmit}>
+                    <div className='row my-4'>
+                        <div className='col-md-8 card shadow border-0 p-4 px-4'>
+                            <div className='card p-4 mt-0'>
 
+                                {/* staff info */}
+                                <div className='row'>
+                                    <div className='col'>
+                                        <div className='form-group'>
+                                            <h6>TÊN*</h6>
+                                            <input type='text' className='form-control' name="name" value={formFields.name} onChange={handleChange} />
+                                        </div>
+                                    </div>
+                                    <div className='col'>
+                                        <div className='form-group'>
+                                            <h6>SĐT*</h6>
+                                            <input type='text' name="phone" value={formFields.phone} onChange={handleChange} />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className='row'>
+                                    <div className='col'>
+                                        <div className='form-group'>
+                                            <h6>Email*</h6>
+                                            <input type='text' name="email" value={formFields.email} onChange={handleChange} />
+                                        </div>
+                                    </div>
+                                    <div className='col'>
+                                        <div className='form-group'>
+                                            <h6>Địa chỉ*</h6>
+                                            <input type='text' name="address" value={formFields.address} onChange={handleChange} />
+                                        </div>
+                                    </div>
+                                </div>  
+                                
+                                {/* dropBox: staff role */}
+                                <div className='row'>
+                                    <div className='col'>
+                                        <div className='form-group'>
+                                            <h6>Thuộc nhóm phân quyền*</h6>
+                                            <DropdownBox handleChange={handleRoleChange} roles={roleList} value={formFields.role}/>
+                                            {/* <DropdownBox roles={roleList} handleChange={handleRoleChange} value={""}/> */}
+                                            <p>Selected Role: {selectedRole}</p>
+                                        </div>
+                                    </div>
+                                </div>
 
-        </div>
+                                {/* password */}
+                                <div className='row'>
+                                    <div className='col'>
+                                        <div className='form-group'>
+                                            <h6>Mật khẩu*</h6>
+                                            <input type={`${isShowPassword === true ? 'text' : 'password'}`} className='form-control' name="password" value={formFields.password} onChange={handleChange} autoComplete="off" />
+                                            {formFields.password && (
+                                                <span className='toggleShowPassword-add' onClick={() => handleTogglePassword('password')}>
+                                                    {isShowPassword ? <IoMdEyeOff /> : <IoMdEye />}
+                                                </span>
+                                            )}
+                                        </div>
+                                    </div>
+                                    <div className='col'>
+                                        <div className='form-group'>
+                                            <h6>Xác nhận mật khẩu*</h6>
+                                            <input type={`${isShowConfirmPassword === true ? 'text' : 'password'}`} className='form-control' name="confirmPassword" value={formFields.confirmPassword} onChange={handleChange} autoComplete="off" />
+                                            {formFields.confirmPassword && (
+                                                <span className='toggleShowPassword-add' onClick={() => handleTogglePassword('confirmPassword')}>
+                                                    {isShowConfirmPassword ? <IoMdEyeOff /> : <IoMdEye />}
+                                                </span>
+                                            )}
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div className='col-md-4 img-container card shadow border-0 p-3 px-4 py-4'>
+                            <div className='imgUploadBox d-flex align-items-center'>
+                                {preview ? 
+                                (
+                                    <div className='uploadBox'>
+                                        <span className="remove" onClick={removeImg}>
+                                            <CiCircleRemove />
+                                        </span>
+                                        <div className='box'>
+                                            <LazyLoadImage alt={"preview"} effect="blur" className="w-100" src={preview} />
+                                        </div>
+                                    </div>
+                                ) : 
+                                (
+                                    <div className='uploadBox'>
+                                        {isLoading ? 
+                                        (
+                                            <div className="progressBar text-center d-flex align-items-center justify-content-center flex-column">
+                                                <CircularProgress />
+                                                <span>Đang tải...</span>
+                                            </div>
+                                        ) : 
+                                        (
+                                            <>
+                                                {/* <input type="file" onChange={handleChange} name="image" required accept="image/png, image/jpeg, image/jpg, image/jfif" /> */}
+                                                <input
+                                                    type="file"
+                                                    id="image"
+                                                    className='imgUploadBox'
+                                                    name="images"
+                                                    accept='image/*'
+                                                    onChange={handleChange}
+                                                />
+                                                <div className='info'>
+                                                    <h5>Tải ảnh lên</h5>
+                                                </div>
+                                            </>
+                                        )}
+                                    </div>
+                                )}
+                            </div>
+
+                            <div className='imgUploadBtn card shadow border-0 w-100'>
+                                <div className='imgBtn d-flex justify-content-center'>
+                                    <Button variant="contained" type="submit" className="btn btn-primary mt-3" disabled={isLoading}>Lưu</Button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </form>
+            </div>
+        </section>
+        
     );
 };
 

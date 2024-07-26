@@ -228,21 +228,26 @@ table.v-align td .productBox {width: 150px;}
 .loginPatern img {max-width: 100%; max-height: 100%;}
 .loginSection .loginBox{width: 350px; height: auto; margin:auto; padding-top: 30px;}
 .loginSection .loginBox .wrapper{width: 100%; height: auto; background: #f0f0f0; position: relative; z-index: 100; padding: 35px;}
-.loginSection .loginBox .wrapper .form-group{margin-bottom: 18px;}
+.loginSection .loginBox .wrapper .form-group{margin-bottom: 18px; position: relative;}
 .loginSection .loginBox .wrapper .form-control{background: #fff; box-shadow: none !important; outline: none !important; border-radius: 8px !important; font-size: 14px; font-weight: 600; height: 45px; padding-left: 40px;}
 .loginSection .loginBox .wrapper .form-group.focus .icon svg{color: #0858f7 !important;}
 .loginSection .loginBox .wrapper .form-control:focus{border: 1px solid #0858f7 !important;}
-.loginSection .loginBox .wrapper .form-group .icon{position: absolute; top: 3px; left: 10px; z-index: 100; font-size: 23px;}
+.loginSection .loginBox .wrapper .form-group .icon{position: absolute; top: 3px; left: 10px; z-index: 100; font-size: 23px; }
 .loginSection .loginBox .wrapper .form-group .icon svg{color: #5e5d72;}
 .loginSection .loginBox .wrapper .form-group .toggleShowPassword{position: absolute; top: 3px; right: 10px; z-index: 100; font-size: 23px;}
 .toggleShowPassword{position: absolute; top: 50%; right: 10px; cursor: pointer; }
 .toggleShowPassword svg{font-size: 20px; color: #605f70;}
 
-
 .loginSection .loginBox .wrapper .link{font-size: 14px;}
 .loginSection .loginBox .wrapper .or span.line{ display: block; width: 35%; height: 1px; background: rgba(0,0,0,0.2);}
 .loginWithGoogle{text-transform: capitalize !important; font-weight: bold !important;}
 
+/* Ẩn default Eye icon Cho tất cả các trình duyệt */
+input[type="password"] {-webkit-text-security: disc;}
+/* Cho trình duyệt Firefox */
+input[type="password"]::-ms-reveal {display: none;}
+/* Cho trình duyệt Internet Explorer */
+input[type="password"]::-ms-clear {display: none;}
 
 
 /* SignUp (pages/SignUp) */
@@ -397,6 +402,8 @@ form .btn-blue{position: relative; z-index: 100;}
 .myAccountPage .image-note{ opacity: 0.5; font-weight: 550;}
 .myAccountPage .imgUploadBox img{display: flex; align-items: center; justify-content: center; overflow: hidden; width: 30%; padding: 2px; cursor: pointer;}
 
+
+
 /* password box */
 .passwordBox{width: auto; height: auto; margin:auto; max-width: 350px;}
 .passwordBox .form-group{margin-bottom: 18px;}
@@ -406,7 +413,8 @@ form .btn-blue{position: relative; z-index: 100;}
 .toggleShowPassword{position: absolute; top: 10px; right: 8px; cursor: pointer;}
 .toggleShowPassword svg{font-size: 22px; color: #605f70;}
 
-
+.toggleShowPassword-add{position: absolute; top: 60%; right: 8px; cursor: pointer; transform: translateY(-50%);}
+.toggleShowPassword-add svg{font-size: 22px; color: #605f70;}
 
 /* BookDropdown  Search */
 
@@ -539,12 +547,7 @@ form .btn-blue{position: relative; z-index: 100;}
     height: 25px !important;
   }
 
-/* Ẩn default Eye icon Cho tất cả các trình duyệt */
-input[type="password"] {-webkit-text-security: disc;}
-/* Cho trình duyệt Firefox */
-input[type="password"]::-ms-reveal {display: none;}
-/* Cho trình duyệt Internet Explorer */
-input[type="password"]::-ms-clear {display: none;}
+
 
 
 /* home page */

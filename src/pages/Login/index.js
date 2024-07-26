@@ -23,7 +23,6 @@ const Login = () => {
     const [inputIndex, setInputIndex] = useState(null);
     const [isShowPassword, setisShowPassword] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
-    // const [isLogin, setIsLogin] = useState(false);
     const { setIsLogin, setStaff, setRole } = useContext(MyContext);
     
     const navigate = useNavigate();
@@ -146,9 +145,10 @@ const Login = () => {
                                     onChange={onchangeInput} />
 
                                 <span className='toggleShowPassword' onClick={() => setisShowPassword(!isShowPassword)}>
-                                    { isShowPassword === true ? <IoMdEyeOff /> : <IoMdEye /> }
+                                    { isShowPassword ? <IoMdEyeOff /> : <IoMdEye /> }
                                 </span>
                             </div>
+                            {/* <div>isShowPassword: {isShowPassword === true ? "true" : "false"}</div> */}
 
 
                             <div className='form-group'>

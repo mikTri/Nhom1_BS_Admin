@@ -172,7 +172,7 @@ const UserAdd = () => {
                                         <h6>Mật khẩu*</h6>
                                         <input type={isShowPassword ? 'text' : 'password'} className='form-control' name="password" value={formFields.password} onChange={handleChange} autoComplete="off" />
                                         {formFields.password && (
-                                            <span className='toggleShowPassword' onClick={() => handleTogglePassword('password')}>
+                                            <span className='toggleShowPassword-add' onClick={() => handleTogglePassword('password')}>
                                                 {isShowPassword ? <IoMdEyeOff /> : <IoMdEye />}
                                             </span>
                                         )}
@@ -183,7 +183,7 @@ const UserAdd = () => {
                                         <h6>Xác nhận lại mật khẩu*</h6>
                                         <input type={isShowConfirmPassword ? 'text' : 'password'} className='form-control' name="confirmPassword" value={formFields.confirmPassword} onChange={handleChange} autoComplete="off" />
                                         {formFields.confirmPassword && (
-                                            <span className='toggleShowPassword' onClick={() => handleTogglePassword('confirmPassword')}>
+                                            <span className='toggleShowPassword-add' onClick={() => handleTogglePassword('confirmPassword')}>
                                                 {isShowConfirmPassword ? <IoMdEyeOff /> : <IoMdEye />}
                                             </span>
                                         )}

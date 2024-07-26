@@ -30,7 +30,7 @@ import AuthorList from './pages/Authors/authorList.js';
 import AuthorAdd from './pages/Authors/authorAdd.js';
 import AuthorEdit from './pages/Authors/authorEdit.js';
 
-import ReviewList from './pages/Reviews/reviewList.js';
+// import ReviewList from './pages/Reviews/reviewList.js';
 
 import CartList from './pages/Cart/cartList.js';
 import CartAdd from './pages/Cart/cartAdd.js';
@@ -274,7 +274,7 @@ function App() {
               <Route path="/authorList/authorAdd" exact element={<ProtectedRoute element={<AuthorAdd />} allowedRoles={[1, 2, 3]} ownPage={true} />} />
               <Route path="/authorList/authorEdit/:id" exact element={<ProtectedRoute element={<AuthorEdit />} allowedRoles={[1, 2, 3]} ownPage={true} />} />
 
-              <Route path="/reviewList" exact element={<ProtectedRoute element={<ReviewList />} allowedRoles={[1, 2, 3]} ownPage={true} />} />
+              {/* <Route path="/reviewList" exact element={<ProtectedRoute element={<ReviewList />} allowedRoles={[1, 2, 3]} ownPage={true} />} /> */}
 
               <Route path="/mailBox" exact element={<ProtectedRoute element={<MailBox />} allowedRoles={[1, 2, 3]} />} ownPage={true} />
               <Route path="/subscription" exact element={<ProtectedRoute element={<Subscription />} allowedRoles={[1, 2, 3]} ownPage={true} />} />

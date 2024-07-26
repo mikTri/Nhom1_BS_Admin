@@ -40,6 +40,15 @@ const CartAdd = () => {
         window.scrollTo(0, 0);
     }, []);
 
+    // cập nhật lại subTotal khi quantity có thay đổi
+    useEffect(() => {
+        const newSubTotal = formFields.price * formFields.quantity;
+        setFormFields(prevFields => ({
+            ...prevFields,
+            subTotal: newSubTotal
+        }));
+    }, [formFields.quantity]);
+
     const handleSelectBook = (book) => {
         setSelectedBook(book);
         setFormFields({
